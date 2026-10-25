@@ -1,0 +1,31 @@
+format_version: "13"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+workflows:
+  primary:
+    steps:
+    - git-clone@8:
+        inputs:
+        - repository_url: $GIT_REPOSITORY_URL
+        - branch: $GIT_BRANCH
+        - update_submodules: "true"
+    - script@1:
+        title: Install dependencies
+        inputs:
+        - content: |
+            #!/bin/bash
+            brew install jq || true
+    - script@1:
+        title: Build SEUsign
+        inputs:
+        - content: |
+            #!/bin/bash
+            set -e
+            make
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - deploy_path: packages/*.ipa
+    meta:
+      bitrise.io:
+        stack: osx-xcode-26.3.x
+        machine_type_id: g2-m1.4core
