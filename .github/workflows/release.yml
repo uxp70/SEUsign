@@ -16,6 +16,7 @@ jobs:
           submodules: 'true'
       - name: Prepare dependencies (Xcode)
         run: |
+          sudo xcode-select -s /Applications/Xcode_26.3.0.app
           xcodebuild -version
 
       - name: Build
