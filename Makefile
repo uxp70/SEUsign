@@ -1,5 +1,5 @@
-NAME := SEUsign
-SCHEME := SEUsign
+NAME := Feather
+SCHEME := Feather
 PLATFORMS := iphoneos maccatalyst
 
 TMP := $(TMPDIR)/$(NAME)
