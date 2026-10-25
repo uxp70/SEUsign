@@ -21,7 +21,6 @@ jobs:
 
       - name: Build
         run: | 
-          agvtool new-version -all $(git rev-parse HEAD)
           make
 
       - name: Get Version
