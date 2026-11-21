@@ -11,25 +11,29 @@ import NukeUI
 
 // MARK: - View
 struct SourcesCellView: View {
-	@Environment(\.horizontalSizeClass) private var horizontalSizeClass
-	
+	@AppStorage(AppStyleStore.densityKey) private var _styleDensity: Int = AppDensity.comfortable.rawValue
+	@AppStorage(AppStyleStore.cardShapeKey) private var _styleCardShape: Int = AppCardShape.rounded.rawValue
+
 	var source: AltSource
-	
+
+	private var _metrics: AppStyleStore.RowMetrics {
+		AppStyleStore.rowMetrics(density: _styleDensity, cardShape: _styleCardShape)
+	}
+
 	// MARK: Body
 	var body: some View {
-		let isRegular = horizontalSizeClass != .compact
-		
+		let metrics = _metrics
+
 		FRIconCellView(
 			title: source.name ?? .localized("Unknown"),
 			subtitle: source.sourceURL?.absoluteString ?? "",
-			iconUrl: source.iconURL
+			iconUrl: source.iconURL,
+			size: metrics.iconSize
 		)
-		.padding(isRegular ? 12 : 0)
+		.padding(metrics.padding)
 		.background(
-			isRegular
-				? RoundedRectangle(cornerRadius: 18, style: .continuous)
+			RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
 				.fill(Color(.quaternarySystemFill))
-				: nil
 		)
 		.swipeActions {
 			_actions(for: source)
@@ -51,7 +55,7 @@ extension SourcesCellView {
 			Storage.shared.deleteSource(for: source)
 		}
 	}
-	
+
 	@ViewBuilder
 	private func _contextActions(for source: AltSource) -> some View {
 		Button(.localized("Copy"), systemImage: "doc.on.clipboard") {

@@ -12,7 +12,8 @@ import NimbleViews
 
 // MARK: - View
 struct SourcesView: View {
-	@Environment(\.horizontalSizeClass) private var horizontalSizeClass
+	@AppStorage(AppStyleStore.densityKey) private var _styleDensity: Int = AppDensity.comfortable.rawValue
+	@AppStorage(AppStyleStore.cardShapeKey) private var _styleCardShape: Int = AppCardShape.rounded.rawValue
 	#if !NIGHTLY && !DEBUG
 		@AppStorage("SEUsign.shouldStar") private var _shouldStar: Int = 0
 	#endif
@@ -21,6 +22,10 @@ struct SourcesView: View {
 	@State private var _addingSourceLoading = false
 	@State private var _searchText = ""
 	
+	private var _metrics: AppStyleStore.RowMetrics {
+		AppStyleStore.rowMetrics(density: _styleDensity, cardShape: _styleCardShape)
+	}
+
 	private var _filteredSources: [AltSource] {
 		_sources.filter { _searchText.isEmpty || ($0.name?.localizedCaseInsensitiveContains(_searchText) ?? false) }
 	}
@@ -40,20 +45,18 @@ struct SourcesView: View {
 						NavigationLink {
 							SourceAppsView(object: Array(_sources), viewModel: viewModel)
 						} label: {
-							let isRegular = horizontalSizeClass != .compact
-							HStack(spacing: 18) {
-								Image("Repositories").appIconStyle()
+							let metrics = _metrics
+							HStack(spacing: metrics.spacing) {
+								Image("Repositories").appIconStyle(size: metrics.iconSize)
 								NBTitleWithSubtitleView(
 									title: .localized("All Repositories"),
 									subtitle: .localized("See all apps from your sources")
 								)
 							}
-							.padding(isRegular ? 12 : 0)
+							.padding(metrics.padding)
 							.background(
-								isRegular
-									? RoundedRectangle(cornerRadius: 18, style: .continuous)
+								RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
 									.fill(Color(.quaternarySystemFill))
-									: nil
 							)
 						}
 						.buttonStyle(.plain)

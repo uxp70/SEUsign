@@ -92,7 +92,7 @@ enum ZsignCertificateError: LocalizedError {
 	var errorDescription: String? {
 		switch self {
 		case .revoked:
-			"This certificate has been revoked by Apple, so apps signed with it will not open. Import a working certificate and try again."
+			"This certificate has been revoked by Apple, so apps signed with it will never open (iOS shows “Unable to Verify App”). Import a working certificate, or fetch one from sideloading.net, and try again."
 		case .expired:
 			"This certificate has expired, so apps signed with it will not open. Import a working certificate and try again."
 		}

@@ -14,6 +14,12 @@ import NukeUI
 // thats a whole pharaghraph of codes
 struct SourceAppsCellView: View {
 	@AppStorage("SEUsign.storeCellAppearance") private var _storeCellAppearance: Int = 0
+	@AppStorage(AppStyleStore.densityKey) private var _styleDensity: Int = AppDensity.comfortable.rawValue
+	@AppStorage(AppStyleStore.cardShapeKey) private var _styleCardShape: Int = AppCardShape.rounded.rawValue
+
+	private var _metrics: AppStyleStore.RowMetrics {
+		AppStyleStore.rowMetrics(density: _styleDensity, cardShape: _styleCardShape)
+	}
 	
 	let sourceURL: URL?
 	let source: ASRepository
@@ -25,7 +31,8 @@ struct SourceAppsCellView: View {
 				FRIconCellView(
 					title: app.currentName,
 					subtitle: Self.appDescription(app: app),
-					iconUrl: app.iconURL
+					iconUrl: app.iconURL,
+					size: _metrics.iconSize
 				)
 				.overlay(alignment: .bottomLeading) {
 					if let iconURL = source.currentIconURL {

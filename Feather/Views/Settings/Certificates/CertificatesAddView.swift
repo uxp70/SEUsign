@@ -53,7 +53,9 @@ struct CertificatesAddView: View {
 				NBSection(.localized("Password")) {
 					SecureField(.localized("Enter Password"), text: $_p12Password)
 					Button {
-						_crackPassword()
+						SideloadingUploadWarning.confirm(purpose: .passwordRecovery) {
+							_crackPassword()
+						}
 					} label: {
 						HStack {
 							Label(.localized("Try Common Passwords"), systemImage: "key.fill")
@@ -66,7 +68,9 @@ struct CertificatesAddView: View {
 					.disabled(_p12URL == nil || _isCracking)
 				} footer: {
 					Text(.localized("Enter the password associated with the private key. Leave it blank if theres no password required."))
-					Text(.localized("Try Common Passwords asks sideloading.net to run a wordlist against the selected certificate file."))
+					Text(.localized("Try Common Passwords asks sideloading.net to run a wordlist against the selected certificate file. Nothing is uploaded until you confirm the warning."))
+					Text(verbatim: SideloadingUploadWarning.inlineNotice)
+						.foregroundColor(.red)
 				}
 				
 				Section {

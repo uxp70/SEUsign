@@ -64,6 +64,9 @@ struct SettingsView: View {
 					NavigationLink(destination: CertificatesView()) {
 						Label(.localized("Certificates"), systemImage: "checkmark.seal")
 					}
+					NavigationLink(destination: AppVerificationHelpView(certificate: selectedCertificate)) {
+						Label(.localized("Unable to Verify App"), systemImage: "checkmark.shield")
+					}
                  
 				} footer: {
 					Text(.localized("Add and manage certificates used for signing applications."))

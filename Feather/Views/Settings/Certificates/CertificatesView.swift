@@ -160,7 +160,9 @@ extension CertificatesView {
 			Storage.shared.revokagedCertificate(for: cert)
 		}
 		Button(.localized("Verify with sideloading.net"), systemImage: "checkmark.shield") {
-			_verify(cert)
+			SideloadingUploadWarning.confirm(purpose: .verification) {
+				_verify(cert)
+			}
 		}
 	}
 

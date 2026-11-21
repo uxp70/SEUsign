@@ -159,6 +159,27 @@ enum AppStyleStore {
 	static var cellHeight: CGFloat {
 		density == .compact ? 66 : 80
 	}
+
+	/// Metrics shared by the Library and Sources rows, so the layout settings
+	/// shape every list in the app and not just the certificate cards.
+	struct RowMetrics {
+		let padding: CGFloat
+		let spacing: CGFloat
+		let iconSize: CGFloat
+		let cornerRadius: CGFloat
+	}
+
+	static func rowMetrics(density: Int, cardShape: Int) -> RowMetrics {
+		let isCompact = AppDensity(rawValue: density) == .compact
+		let isSquircle = AppCardShape(rawValue: cardShape) == .squircle
+
+		return RowMetrics(
+			padding: isCompact ? 8 : 12,
+			spacing: isCompact ? 12 : 18,
+			iconSize: isCompact ? 44 : 57,
+			cornerRadius: isSquircle ? 22 : 14
+		)
+	}
 }
 
 // MARK: - Backdrop

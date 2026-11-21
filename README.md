@@ -24,7 +24,9 @@ A rebranded, independently maintained fork of [Feather](https://github.com/clara
 - Tweak support for advanced users, using [Ellekit](https://github.com/tealbathingsuit/ellekit) for injection.
   - Supports injecting `.deb` and `.dylib` files.
 - Automatic certificates: browse and import a certificate, provisioning profile and password from [sideloading.net](https://sideloading.net/api/) in one tap, verify an imported certificate remotely, and recover a forgotten `.p12` password.
-- Interface styles: preset styles, accent palette, density, card shape and background options.
+  - Remote verification and password recovery upload the `.p12` (and its password) to sideloading.net. The app states this plainly and asks for confirmation before anything leaves the device.
+- Interface styles: preset styles, accent palette, density, card shape and background options, applied to the Library and Sources lists as well as the certificate cards.
+- Built-in help for iOS's “Unable to Verify App” dialog: what the developer trust check means, the steps to clear it, a check of Apple's verification servers, and a shortcut to VPN & Device Management.
 - No tracking or analytics, ensuring user privacy.
 - Open source and free.
 

@@ -11,11 +11,18 @@ import NimbleViews
 
 // MARK: - View
 struct LibraryCellView: View {
-	@Environment(\.horizontalSizeClass) private var horizontalSizeClass
 	@Environment(\.editMode) private var editMode
 	@ObservedObject private var updateManager = UpdateManager.shared
 	@State private var _signedUpdateConfirmation: AppUpdate?
 	@State private var _isSignedUpdateConfirmationPresented = false
+	@State private var _isVerificationHelpPresenting = false
+
+	@AppStorage(AppStyleStore.densityKey) private var _styleDensity: Int = AppDensity.comfortable.rawValue
+	@AppStorage(AppStyleStore.cardShapeKey) private var _styleCardShape: Int = AppCardShape.rounded.rawValue
+
+	private var _metrics: AppStyleStore.RowMetrics {
+		AppStyleStore.rowMetrics(density: _styleDensity, cardShape: _styleCardShape)
+	}
 
 	var certInfo: Date.ExpirationInfo? {
 		Storage.shared.getCertificate(from: app)?.expiration?.expirationInfo()
@@ -48,10 +55,10 @@ struct LibraryCellView: View {
 	
 	// MARK: Body
 	var body: some View {
-		let isRegular = horizontalSizeClass != .compact
 		let isEditing = editMode?.wrappedValue == .active
+		let metrics = _metrics
 		
-		HStack(spacing: 18) {
+		HStack(spacing: metrics.spacing) {
 			if isEditing {
 				Button {
 					_toggleSelection()
@@ -75,12 +82,10 @@ struct LibraryCellView: View {
 				_buttonActions(for: app)
 			}
 		}
-		.padding(isRegular ? 12 : 0)
+		.padding(metrics.padding)
 		.background(
-			isRegular
-				? RoundedRectangle(cornerRadius: 18, style: .continuous)
+			RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
 				.fill(_isSelected && isEditing ? Color.accentColor.opacity(0.1) : Color(.quaternarySystemFill))
-				: nil
 		)
 		.contentShape(Rectangle())
 		.onTapGesture {
@@ -121,6 +126,9 @@ struct LibraryCellView: View {
 				Text(verbatim: "\(update.appName) \(update.remoteVersion)")
 			}
 		}
+		.sheet(isPresented: $_isVerificationHelpPresenting) {
+			AppVerificationHelpView(certificate: Storage.shared.getCertificate(from: app))
+		}
 	}
 	
 	private var _desc: String {
@@ -136,7 +144,7 @@ struct LibraryCellView: View {
 // MARK: - Extension: View
 extension LibraryCellView {
 	private func _appIcon(for app: AppInfoPresentable) -> some View {
-		FRAppIconView(app: app, size: 57)
+		FRAppIconView(app: app, size: _metrics.iconSize)
 			.overlay(alignment: .topTrailing) {
 				if updateManager.update(for: app) != nil {
 					Image(systemName: "arrow.down.circle.fill")
@@ -195,6 +203,9 @@ extension LibraryCellView {
 			}
 			Button(.localized("Export"), systemImage: "square.and.arrow.up") {
 				selectedInstallAppPresenting = AnyApp(base: app, archive: true)
+			}
+			Button(.localized("Fix “Unable to Verify App”"), systemImage: "checkmark.shield") {
+				_isVerificationHelpPresenting = true
 			}
 		} else {
 			Button(.localized("Install"), systemImage: "square.and.arrow.down") {

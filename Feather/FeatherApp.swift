@@ -161,6 +161,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		_createDocumentsDirectories()
 		ResetView.clearWorkCache()
 		_addDefaultCertificates()
+		_refreshCertificateRevocation()
 		return true
 	}
 	
@@ -202,6 +203,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 	}
 	
+	/// Re-checks every imported certificate against Apple, so a certificate that
+	/// was revoked after it was imported is flagged before it is used to sign.
+	/// Apps signed with a revoked certificate show “Unable to Verify App” and
+	/// never open, so catching this early is the only fix available on device.
+	private func _refreshCertificateRevocation() {
+		for cert in Storage.shared.getAllCertificates() {
+			Storage.shared.revokagedCertificate(for: cert)
+		}
+	}
+
 	private func _addDefaultCertificates() {
 		guard
 			UserDefaults.standard.bool(forKey: "seusign.didImportDefaultCertificates") == false,
