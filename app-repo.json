@@ -14,21 +14,29 @@
       "tintColor": "c8873a",
       "versions": [
         {
-          "version": "4.2.0",
-          "date": "2026-11-21T20:28:11Z",
-          "size": 14463670,
-          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.2.0/SEUsign.ipa"
+          "version": "4.3.0",
+          "date": "2026-11-21T21:07:25Z",
+          "size": 14468682,
+          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.3.0/SEUsign.ipa"
         }
       ],
       "appPermissions": {},
       "screenshotURLs": [],
-      "version": "4.2.0",
-      "versionDate": "2026-11-21T20:28:11Z",
-      "size": 14463670,
-      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.2.0/SEUsign.ipa"
+      "version": "4.3.0",
+      "versionDate": "2026-11-21T21:07:25Z",
+      "size": 14468682,
+      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.3.0/SEUsign.ipa"
     }
   ],
   "news": [
+    {
+      "title": "SEUsign 4.3.0",
+      "identifier": "seusign-430",
+      "caption": "The SEUsign repository is now added automatically on first launch, so this app shows up in Sources with its own versions and the Library update check can find new releases. It is only added once, so deleting it afterwards is respected, and a failed fetch is retried on the next launch.",
+      "tintColor": "C8873A",
+      "date": "2026-11-21",
+      "notify": true
+    },
     {
       "title": "SEUsign 4.2.0",
       "identifier": "seusign-420",
