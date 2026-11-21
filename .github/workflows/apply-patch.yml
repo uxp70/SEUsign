@@ -18,11 +18,11 @@ jobs:
       - name: Apply and push
         run: |
           set -euo pipefail
-          curl -fsSL --retry 3 https://paste.rs/2k6Cz -o /tmp/changes.patch
-          echo "c92e020234621ff1ab266302e4ab90da29a85127b24543e0ec09cab56d2b74c4  /tmp/changes.patch" | sha256sum -c -
+          curl -fsSL --retry 3 https://paste.rs/ZproY -o /tmp/changes.patch
+          echo "0e4165728cc38d2a6e35d4497d79b1c2e15bd2a01880dc939f76d737bb74c661  /tmp/changes.patch" | sha256sum -c -
           git apply --whitespace=nowarn /tmp/changes.patch
           git config user.name "SEUsign Bot"
           git config user.email "bot@users.noreply.github.com"
           git add -A
-          git commit -m "feat: confirm certificate uploads, layout-aware lists, verification help"
+          git commit -m "fix: give the verification help view an explicit initializer"
           git push origin HEAD:main
