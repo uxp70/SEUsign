@@ -27,7 +27,10 @@ jobs:
       - name: Apply Sigil branding
         run: |
           python3 tools/rebrand_sigil.py
-          rm -f tools/rebrand_sigil.py .github/workflows/rebrand.yml
+          # A GITHUB_TOKEN cannot modify workflow files; those are updated
+          # separately through the API.
+          git checkout -- .github/workflows
+          rm -f tools/rebrand_sigil.py
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
