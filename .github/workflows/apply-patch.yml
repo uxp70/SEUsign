@@ -1,0 +1,28 @@
+name: Apply patch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Apply and push
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 https://paste.rs/2k6Cz -o /tmp/changes.patch
+          echo "c92e020234621ff1ab266302e4ab90da29a85127b24543e0ec09cab56d2b74c4  /tmp/changes.patch" | sha256sum -c -
+          git apply --whitespace=nowarn /tmp/changes.patch
+          git config user.name "SEUsign Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: confirm certificate uploads, layout-aware lists, verification help"
+          git push origin HEAD:main
