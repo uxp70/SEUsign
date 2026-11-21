@@ -51,8 +51,13 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" _build/Payload/SEUsign.app/Info.plist)
+          # After the Catalyst pass, _build/Payload holds a macOS-style bundle
+          # (Contents/Info.plist), so read the version from the shipped IPA.
+          unzip -p packages/SEUsign.ipa Payload/SEUsign.app/Info.plist > "$RUNNER_TEMP/Info.plist"
+          VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$RUNNER_TEMP/Info.plist")
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "SEUsign v${VERSION}"
+          ls -lh packages
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
