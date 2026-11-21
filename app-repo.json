@@ -14,21 +14,29 @@
       "tintColor": "c8873a",
       "versions": [
         {
-          "version": "4.1.0",
-          "date": "2026-11-21T19:06:19Z",
-          "size": 14456050,
-          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.1.0/SEUsign.ipa"
+          "version": "4.2.0",
+          "date": "2026-11-21T20:28:11Z",
+          "size": 14463670,
+          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.2.0/SEUsign.ipa"
         }
       ],
       "appPermissions": {},
       "screenshotURLs": [],
-      "version": "4.1.0",
-      "versionDate": "2026-11-21T19:06:19Z",
-      "size": 14456050,
-      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.1.0/SEUsign.ipa"
+      "version": "4.2.0",
+      "versionDate": "2026-11-21T20:28:11Z",
+      "size": 14463670,
+      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.2.0/SEUsign.ipa"
     }
   ],
   "news": [
+    {
+      "title": "SEUsign 4.2.0",
+      "identifier": "seusign-420",
+      "caption": "Certificates from sideloading.net are now all selectable. The list opens on All, every row imports in one tap, and a revoked or expired certificate asks for confirmation first instead of being impossible to pick. Density and card shape now reshape the real lists: Library, Sources and source app rows draw on a shared card surface with row insets, icon sizes, spacing and corner radius driven by those settings, and the Appearance preview is the same real row.",
+      "tintColor": "C8873A",
+      "date": "2026-11-21",
+      "notify": true
+    },
     {
       "title": "SEUsign 4.1.0",
       "identifier": "seusign-410",
