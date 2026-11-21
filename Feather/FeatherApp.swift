@@ -168,14 +168,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		return true
 	}
 
-	/// The app's own AltStore repository, added on first launch so SEUsign
-	/// updates appear in Sources and in the Library update check without
-	/// pasting the URL by hand. It is only added once: deleting it later is
-	/// respected, and a failed fetch is retried on the next launch.
+	/// The SEU community repository, added on first launch so its apps are
+	/// ready in Sources without pasting the URL by hand. It is only added
+	/// once: deleting it later is respected, and a failed fetch is retried
+	/// on the next launch.
 	private static let seuRepositoryURL = URL(
-		string: "https://raw.githubusercontent.com/uxp70/SEUsign/refs/heads/main/app-repo.json"
+		string: "https://raw.githubusercontent.com/DatOneFlareon/The-SEU-app-repo-for-the-gangalang/main/SEU.json"
 	)!
-	private static let seuRepositoryIdentifier = "seusign-repo"
 	private static let seuRepositoryKey = "seusign.didAddSEURepository"
 
 	private func _addSEURepository() {
@@ -186,7 +185,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		let url = Self.seuRepositoryURL
 		let alreadyAdded = Storage.shared.getSources().contains {
 			$0.sourceURL?.absoluteString == url.absoluteString
-				|| $0.identifier == Self.seuRepositoryIdentifier
 		}
 
 		guard !alreadyAdded else {
@@ -198,21 +196,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			switch result {
 			case .success(let repository):
 				DispatchQueue.main.async {
-					Storage.shared.addSource(
-						url,
-						repository: repository,
-						id: Self.seuRepositoryIdentifier
-					) { error in
+					Storage.shared.addSource(url, repository: repository) { error in
 						if let error {
-							Logger.misc.error("Failed to add the SEUsign repository: \(error.localizedDescription)")
+							Logger.misc.error("Failed to add the SEU repository: \(error.localizedDescription)")
 						} else {
 							UserDefaults.standard.set(true, forKey: Self.seuRepositoryKey)
-							Logger.misc.info("Added the SEUsign repository")
+							Logger.misc.info("Added the SEU repository")
 						}
 					}
 				}
 			case .failure(let error):
-				Logger.misc.error("Failed to fetch the SEUsign repository: \(error.localizedDescription)")
+				Logger.misc.error("Failed to fetch the SEU repository: \(error.localizedDescription)")
 			}
 		}
 	}
