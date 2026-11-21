@@ -175,9 +175,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	private static let seuRepositoryURL = URL(
 		string: "https://raw.githubusercontent.com/DatOneFlareon/The-SEU-app-repo-for-the-gangalang/main/SEU.json"
 	)!
-	private static let seuRepositoryKey = "seusign.didAddSEURepository"
+	private static let seuRepositoryKey = "seusign.didAddSEURepository.v2"
+	private static let legacyRepositoryURL = "https://raw.githubusercontent.com/uxp70/SEUsign/refs/heads/main/app-repo.json"
+	private static let legacyRepositoryKey = "seusign.didAddSEURepository"
 
 	private func _addSEURepository() {
+		_removeLegacyRepository()
+
 		guard UserDefaults.standard.bool(forKey: Self.seuRepositoryKey) == false else {
 			return
 		}
@@ -211,6 +215,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 	}
 	
+	/// 4.3.0 briefly added the app's own repository instead of the SEU one.
+	/// Drop that entry once, then let the corrected repository be added.
+	private func _removeLegacyRepository() {
+		guard UserDefaults.standard.bool(forKey: Self.legacyRepositoryKey) else { return }
+
+		for source in Storage.shared.getSources()
+		where source.sourceURL?.absoluteString == Self.legacyRepositoryURL {
+			Storage.shared.deleteSource(for: source)
+		}
+
+		UserDefaults.standard.removeObject(forKey: Self.legacyRepositoryKey)
+	}
+
 	private func _createPipeline() {
 		DataLoader.sharedUrlCache.diskCapacity = 0
 		
