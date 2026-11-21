@@ -6,6 +6,9 @@ on:
       - v*
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-latest
@@ -29,29 +32,33 @@ jobs:
 
       - name: Build
         run: |
-          for attempt in 1 2 3; do
-            echo "::group::Build attempt ${attempt}"
-            if make iphoneos; then
+          build_platform() {
+            for attempt in 1 2 3; do
+              echo "::group::$1 (attempt ${attempt})"
+              if make "$1"; then
+                echo "::endgroup::"
+                return 0
+              fi
               echo "::endgroup::"
-              exit 0
-            fi
-            echo "::endgroup::"
-            sleep 15
-          done
-          echo "Build failed after 3 attempts" >&2
-          exit 1
+              sleep 15
+            done
+            echo "$1 failed after 3 attempts" >&2
+            return 1
+          }
+          build_platform iphoneos
+          build_platform maccatalyst
 
       - name: Get Version
         id: get_version
         run: |
-          VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" _build/Payload/*.app/Info.plist)
+          VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" _build/Payload/SEUsign.app/Info.plist)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
-      - name: Upload IPA
+      - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
-          name: SEUsign-ipa
-          path: packages/*.ipa
+          name: SEUsign-packages
+          path: packages/*
           if-no-files-found: error
           retention-days: 30
 
@@ -60,11 +67,10 @@ jobs:
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v3.0.2
         with:
           name: SEUsign v${{ env.VERSION }}
-          tag_name: v${{ env.VERSION }}
+          tag_name: ${{ github.ref_name }}
           files: |
             packages/*
           generate_release_notes: true
           fail_on_unmatched_files: true
-          draft: true
-        env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+          draft: false
+          token: ${{ secrets.GITHUB_TOKEN }}

@@ -53,5 +53,5 @@ $(PLATFORMS): deps
 	@if [ "$@" = "iphoneos" ]; then \
 		ditto -c -k --sequesterRsrc --keepParent _build/Payload "packages/SEUsign.ipa"; \
 	else \
-		ditto -c -k --sequesterRsrc --keepParent _build/Payload/Feather.app "packages/Feather_Catalyst.zip"; \
+		ditto -c -k --sequesterRsrc --keepParent _build/Payload/SEUsign.app "packages/SEUsign_Catalyst.zip"; \
 	fi
