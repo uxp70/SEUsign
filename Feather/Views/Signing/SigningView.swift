@@ -120,15 +120,7 @@ struct SigningView: View {
 			.animation(.smooth, value: _isSigning)
 		}
 		.onAppear {
-			// ppq protection
-			if
-				_optionsManager.options.ppqProtection,
-				let identifier = app.identifier,
-				let cert = _selectedCert(),
-				cert.ppQCheck
-			{
-				_temporaryOptions.appIdentifier = "\(identifier).\(_optionsManager.options.ppqString)"
-			}
+			_applyPPQProtection()
 			
 			if
 				let currentBundleId = app.identifier,
@@ -143,6 +135,9 @@ struct SigningView: View {
 			{
 				_temporaryOptions.appName = newName
 			}
+		}
+		.onChange(of: _temporaryCertificate) { _ in
+			_applyPPQProtection()
 		}
 	}
 }
@@ -263,6 +258,25 @@ extension SigningView {
 
 // MARK: - Extension: View (import)
 extension SigningView {
+	/// Changes the bundle identifier so PPQ (`ppq.apple.com`, the check iOS runs
+	/// on first launch of a sideloaded app) cannot match it to an App Store app.
+	/// Without this, iOS refuses to launch the signed app with "Unable to Verify
+	/// App" and Apple may flag the certificate.
+	///
+	/// Applied automatically when the provisioning profile reports `PPQCheck`,
+	/// or when "PPQ Protection" is enabled in the signing options.
+	private func _applyPPQProtection() {
+		guard
+			let identifier = app.identifier,
+			let cert = _selectedCert(),
+			cert.ppQCheck || _temporaryOptions.ppqProtection
+		else {
+			return
+		}
+		
+		_temporaryOptions.appIdentifier = "\(identifier).\(_optionsManager.options.ppqString)"
+	}
+	
 	private func _start() {
 		guard
 			_selectedCert() != nil || _temporaryOptions.signingOption != .default
@@ -313,3 +327,4 @@ extension SigningView {
 		}
 	}
 }
+

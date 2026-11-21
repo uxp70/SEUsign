@@ -43,6 +43,16 @@ final class ZsignHandler {
 		guard let cert = _certificate else {
 			throw SigningFileHandlerError.missingCertifcate
 		}
+		
+		// A revoked or expired certificate still signs an IPA, but iOS will never
+		// let the user open it ("Unable to Verify App"), so stop here with an
+		// actionable error instead of handing back a dead app.
+		guard !cert.revoked else {
+			throw ZsignCertificateError.revoked
+		}
+		guard cert.expiration > Date() else {
+			throw ZsignCertificateError.expired
+		}
 
 		let _ = Zsign.sign(
 			appPath: _appUrl.relativePath,
@@ -71,5 +81,20 @@ final class ZsignHandler {
 				}
 			}
 		)
+	}
+}
+
+// MARK: - Errors
+enum ZsignCertificateError: LocalizedError {
+	case revoked
+	case expired
+	
+	var errorDescription: String? {
+		switch self {
+		case .revoked:
+			"This certificate has been revoked by Apple, so apps signed with it will not open. Import a working certificate and try again."
+		case .expired:
+			"This certificate has expired, so apps signed with it will not open. Import a working certificate and try again."
+		}
 	}
 }
