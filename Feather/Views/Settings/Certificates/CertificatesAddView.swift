@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import NimbleViews
 import UniformTypeIdentifiers
 
@@ -20,6 +21,8 @@ struct CertificatesAddView: View {
 	
 	@State private var _isImportingP12Presenting = false
 	@State private var _isImportingMobileProvisionPresenting = false
+	@State private var _isAutoPresenting = false
+	@State private var _isCracking = false
 	
 	var saveButtonDisabled: Bool {
 		_p12URL == nil || _provisionURL == nil
@@ -37,10 +40,33 @@ struct CertificatesAddView: View {
 						_isImportingMobileProvisionPresenting = true
 					}
 				}
+				NBSection(.localized("Automatic")) {
+					Button {
+						_isAutoPresenting = true
+					} label: {
+						Label(.localized("Fetch from sideloading.net"), systemImage: "sparkles")
+					}
+				} footer: {
+					Text(.localized("Downloads a ready to use certificate, its provisioning profile and password from sideloading.net, then adds it to the app."))
+				}
+				
 				NBSection(.localized("Password")) {
 					SecureField(.localized("Enter Password"), text: $_p12Password)
+					Button {
+						_crackPassword()
+					} label: {
+						HStack {
+							Label(.localized("Try Common Passwords"), systemImage: "key.fill")
+							Spacer()
+							if _isCracking {
+								ProgressView()
+							}
+						}
+					}
+					.disabled(_p12URL == nil || _isCracking)
 				} footer: {
 					Text(.localized("Enter the password associated with the private key. Leave it blank if theres no password required."))
+					Text(.localized("Try Common Passwords asks sideloading.net to run a wordlist against the selected certificate file."))
 				}
 				
 				Section {
@@ -79,6 +105,12 @@ struct CertificatesAddView: View {
 				)
 				.ignoresSafeArea()
 			}
+			.sheet(isPresented: $_isAutoPresenting) {
+				CertificatesAutoView()
+			}
+			.onReceive(NotificationCenter.default.publisher(for: Notification.Name("SEUsign.certificateImported"))) { _ in
+				dismiss()
+			}
 		}
 	}
 }
@@ -102,6 +134,35 @@ extension CertificatesAddView {
 
 // MARK: - Extension: View (import)
 extension CertificatesAddView {
+	private func _crackPassword() {
+		guard let p12URL = _p12URL else { return }
+		_isCracking = true
+		
+		Task {
+			do {
+				let password = try await SideloadingCertsService.shared.crackPassword(for: p12URL)
+				await MainActor.run {
+					_isCracking = false
+					_p12Password = password
+					UINotificationFeedbackGenerator().notificationOccurred(.success)
+					UIAlertController.showAlertWithOk(
+						title: .localized("Password Found"),
+						message: password
+					)
+				}
+			} catch {
+				await MainActor.run {
+					_isCracking = false
+					UINotificationFeedbackGenerator().notificationOccurred(.error)
+					UIAlertController.showAlertWithOk(
+						title: .localized("No Password Found"),
+						message: error.localizedDescription
+					)
+				}
+			}
+		}
+	}
+	
 	private func _saveCertificate() {
 		guard
 			let p12URL = _p12URL,
@@ -125,4 +186,3 @@ extension CertificatesAddView {
 		}
 	}
 }
-

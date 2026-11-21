@@ -30,6 +30,7 @@ struct FeatherApp: App {
 					.transition(.move(edge: .top).combined(with: .opacity))
 			}
 			.animation(.smooth, value: downloadManager.manualDownloads.description)
+			.background(AppBackdropView())
 			.onReceive(NotificationCenter.default.publisher(for: .heartbeatInvalidHost)) { _ in
 				DispatchQueue.main.async {
 					UIAlertController.showAlertWithOk(

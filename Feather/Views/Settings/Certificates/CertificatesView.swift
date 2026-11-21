@@ -13,6 +13,7 @@ struct CertificatesView: View {
 	@AppStorage("seusign.selectedCert") private var _storedSelectedCert: Int = 0
 	
 	@State private var _isAddingPresenting = false
+	@State private var _isAutoPresenting = false
 	@State private var _isRenamingPresenting = false
 	@State private var _isSelectedInfoPresenting: CertificatePair?
 	@State private var _certToRename: CertificatePair?
@@ -63,6 +64,13 @@ struct CertificatesView: View {
 		.toolbar {
 			if _bindingSelectedCert == nil {
 				NBToolbarButton(
+					systemImage: "sparkles",
+					style: .icon,
+					placement: .topBarLeading
+				) {
+					_isAutoPresenting = true
+				}
+				NBToolbarButton(
 					systemImage: "plus",
 					style: .icon,
 					placement: .topBarTrailing
@@ -77,6 +85,9 @@ struct CertificatesView: View {
 		.sheet(isPresented: $_isAddingPresenting) {
 			CertificatesAddView()
 				.presentationDetents([.medium])
+		}
+		.sheet(isPresented: $_isAutoPresenting) {
+			CertificatesAutoView()
 		}
 		.alert(.localized("Change Nickname"), isPresented: $_isRenamingPresenting, presenting: _certToRename) { cert in
 			TextField(.localized("Nickname"), text: $_newNickname)
@@ -93,13 +104,7 @@ struct CertificatesView: View {
 extension CertificatesView {
 	@ViewBuilder
 	private func _cellButton(for cert: CertificatePair, at index: Int) -> some View {
-		let cornerRadius = {
-			if #available(iOS 26.0, *) {
-				28.0
-			} else {
-				10.5
-			}
-		}()
+		let cornerRadius = AppStyleStore.cardCornerRadius()
 		
 		Button {
 			_selectedCertBinding.wrappedValue = index
@@ -107,7 +112,7 @@ extension CertificatesView {
 			CertificatesCellView(
 				cert: cert
 			)
-			.padding()
+			.padding(AppStyleStore.cardPadding)
 			.background(
 				RoundedRectangle(cornerRadius: cornerRadius)
 					.fill(Color(uiColor: .quaternarySystemFill))
@@ -153,6 +158,30 @@ extension CertificatesView {
 		Divider()
 		Button(.localized("Check Revokage"), systemImage: "person.text.rectangle") {
 			Storage.shared.revokagedCertificate(for: cert)
+		}
+		Button(.localized("Verify with sideloading.net"), systemImage: "checkmark.shield") {
+			_verify(cert)
+		}
+	}
+
+	private func _verify(_ cert: CertificatePair) {
+		Task {
+			do {
+				let summary = try await SideloadingCertsService.shared.check(cert)
+				await MainActor.run {
+					UIAlertController.showAlertWithOk(
+						title: .localized("Certificate Check"),
+						message: summary
+					)
+				}
+			} catch {
+				await MainActor.run {
+					UIAlertController.showAlertWithOk(
+						title: .localized("Certificate Check"),
+						message: error.localizedDescription
+					)
+				}
+			}
 		}
 	}
 }
