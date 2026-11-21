@@ -56,10 +56,12 @@ struct SourcesView: View {
 							.padding(metrics.padding)
 							.background(
 								RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
-									.fill(Color(.quaternarySystemFill))
+									.fill(Color(uiColor: .secondarySystemBackground))
+									.shadow(color: .black.opacity(0.07), radius: 6, x: 0, y: 2)
 							)
 						}
 						.buttonStyle(.plain)
+						.appStyleRow(_metrics)
 					}
 					
 					NBSection(
@@ -73,6 +75,7 @@ struct SourcesView: View {
 								SourcesCellView(source: source)
 							}
 							.buttonStyle(.plain)
+							.appStyleRow(_metrics)
 						}
 					}
 				}

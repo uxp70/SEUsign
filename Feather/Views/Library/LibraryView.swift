@@ -29,6 +29,13 @@ struct LibraryView: View {
 	
 	@State private var _searchText = ""
 	@State private var _selectedScope: Scope = .all
+
+	@AppStorage(AppStyleStore.densityKey) private var _styleDensity: Int = AppDensity.comfortable.rawValue
+	@AppStorage(AppStyleStore.cardShapeKey) private var _styleCardShape: Int = AppCardShape.rounded.rawValue
+
+	private var _rowMetrics: AppStyleStore.RowMetrics {
+		AppStyleStore.rowMetrics(density: _styleDensity, cardShape: _styleCardShape)
+	}
 	
 	
 	@Namespace private var _namespace
@@ -89,6 +96,7 @@ struct LibraryView: View {
 								selectedAppUUIDs: $_selectedAppUUIDs
 							)
 							.compatMatchedTransitionSource(id: app.uuid ?? "", ns: _namespace)
+							.appStyleRow(_rowMetrics)
 						}
 					}
 				}
@@ -110,6 +118,7 @@ struct LibraryView: View {
 								selectedAppUUIDs: $_selectedAppUUIDs
 							)
 							.compatMatchedTransitionSource(id: app.uuid ?? "", ns: _namespace)
+							.appStyleRow(_rowMetrics)
 						}
 					}
 				}

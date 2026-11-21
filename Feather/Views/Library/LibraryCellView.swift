@@ -82,11 +82,7 @@ struct LibraryCellView: View {
 				_buttonActions(for: app)
 			}
 		}
-		.padding(metrics.padding)
-		.background(
-			RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
-				.fill(_isSelected && isEditing ? Color.accentColor.opacity(0.1) : Color(.quaternarySystemFill))
-		)
+		.appStyleCard(metrics, highlighted: _isSelected && isEditing)
 		.contentShape(Rectangle())
 		.onTapGesture {
 			if isEditing {

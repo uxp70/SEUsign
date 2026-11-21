@@ -149,7 +149,7 @@ enum AppStyleStore {
 			}
 			return 10.5
 		}()
-		return cardShape == .squircle ? base + 7 : base
+		return cardShape == .squircle ? base + 10 : base
 	}
 
 	static var cardPadding: CGFloat {
@@ -167,6 +167,7 @@ enum AppStyleStore {
 		let spacing: CGFloat
 		let iconSize: CGFloat
 		let cornerRadius: CGFloat
+		let rowInset: CGFloat
 	}
 
 	static func rowMetrics(density: Int, cardShape: Int) -> RowMetrics {
@@ -174,11 +175,45 @@ enum AppStyleStore {
 		let isSquircle = AppCardShape(rawValue: cardShape) == .squircle
 
 		return RowMetrics(
-			padding: isCompact ? 8 : 12,
-			spacing: isCompact ? 12 : 18,
-			iconSize: isCompact ? 44 : 57,
-			cornerRadius: isSquircle ? 22 : 14
+			padding: isCompact ? 6 : 16,
+			spacing: isCompact ? 10 : 20,
+			iconSize: isCompact ? 40 : 62,
+			cornerRadius: isSquircle ? (isCompact ? 20 : 34) : (isCompact ? 10 : 20),
+			rowInset: isCompact ? 3 : 7
 		)
+	}
+}
+
+// MARK: - Row chrome
+extension View {
+	/// The card surface the Library and Sources lists draw every row on.
+	func appStyleCard(
+		_ metrics: AppStyleStore.RowMetrics,
+		highlighted: Bool = false
+	) -> some View {
+		self
+			.padding(metrics.padding)
+			.background(
+				RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
+					.fill(highlighted ? Color.accentColor.opacity(0.18) : Color(uiColor: .secondarySystemBackground))
+					.shadow(color: .black.opacity(0.07), radius: 6, x: 0, y: 2)
+			)
+	}
+
+	/// Lets the padded card fill its list row, so the density and card shape
+	/// settings change the real lists and not just the settings preview.
+	func appStyleRow(_ metrics: AppStyleStore.RowMetrics) -> some View {
+		self
+			.listRowInsets(
+				EdgeInsets(
+					top: metrics.rowInset,
+					leading: 12,
+					bottom: metrics.rowInset,
+					trailing: 12
+				)
+			)
+			.listRowBackground(Color.clear)
+			.listRowSeparator(.hidden)
 	}
 }
 

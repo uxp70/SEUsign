@@ -32,7 +32,8 @@ struct SourceAppsCellView: View {
 					title: app.currentName,
 					subtitle: Self.appDescription(app: app),
 					iconUrl: app.iconURL,
-					size: _metrics.iconSize
+					size: _metrics.iconSize,
+					spacing: _metrics.spacing
 				)
 				.overlay(alignment: .bottomLeading) {
 					if let iconURL = source.currentIconURL {

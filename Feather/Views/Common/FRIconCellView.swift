@@ -15,11 +15,12 @@ struct FRIconCellView: View {
 	var subtitle: String
 	var iconUrl: URL?
 	var size: CGFloat = 56
+	var spacing: CGFloat = 18
 	var isCircle: Bool = false
 	
 	// MARK: Body
 	var body: some View {
-		HStack(spacing: 18) {
+		HStack(spacing: spacing) {
 			if let iconURL = iconUrl {
 				LazyImage(url: iconURL) { state in
 					if let image = state.image {

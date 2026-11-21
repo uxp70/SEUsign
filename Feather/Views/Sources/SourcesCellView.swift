@@ -28,13 +28,10 @@ struct SourcesCellView: View {
 			title: source.name ?? .localized("Unknown"),
 			subtitle: source.sourceURL?.absoluteString ?? "",
 			iconUrl: source.iconURL,
-			size: metrics.iconSize
+			size: metrics.iconSize,
+			spacing: metrics.spacing
 		)
-		.padding(metrics.padding)
-		.background(
-			RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
-				.fill(Color(.quaternarySystemFill))
-		)
+		.appStyleCard(metrics)
 		.swipeActions {
 			_actions(for: source)
 			_contextActions(for: source)

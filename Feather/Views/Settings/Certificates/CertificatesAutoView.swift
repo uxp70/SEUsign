@@ -14,7 +14,7 @@ struct CertificatesAutoView: View {
 	@Environment(\.dismiss) private var dismiss
 	@StateObject private var _service = SideloadingCertsService()
 
-	@State private var _showAll = false
+	@State private var _showAll = true
 	@State private var _searchText = ""
 	@State private var _importingID: Int?
 
@@ -25,6 +25,25 @@ struct CertificatesAutoView: View {
 			$0.displayName.localizedCaseInsensitiveContains(_searchText)
 				|| $0.name.localizedCaseInsensitiveContains(_searchText)
 		}
+	}
+
+	/// The valid certificate with the longest remaining validity, or the
+	/// published certificate that expires last when none of them are valid.
+	private var _bestCertificate: SideloadingCertificate? {
+		_service.bestCertificate
+			?? _service.certificates.max {
+				($0.expirationDate ?? .distantPast) < ($1.expirationDate ?? .distantPast)
+			}
+	}
+
+	private var _listNotice: String {
+		if _service.certificates.isEmpty {
+			return .localized("Certificates are published by sideloading.net. Importing downloads the certificate, its provisioning profile and password, then adds it here.")
+		}
+		if _service.validCertificates.isEmpty {
+			return .localized("Every certificate sideloading.net publishes right now is marked revoked. You can still pick one, but apps signed with it will show “Unable to Verify App”.")
+		}
+		return .localized("Certificates are published by sideloading.net. Importing downloads the certificate, its provisioning profile and password, then adds it here.")
 	}
 
 	// MARK: Body
@@ -38,7 +57,7 @@ struct CertificatesAutoView: View {
 					}
 					.pickerStyle(.segmented)
 				} footer: {
-					Text(.localized("Certificates are published by sideloading.net. Importing downloads the certificate, its provisioning profile and password, then adds it here."))
+					Text(_listNotice)
 				}
 
 				if _service.isLoading && _service.certificates.isEmpty {
@@ -60,9 +79,13 @@ struct CertificatesAutoView: View {
 					}
 				} else if _certificates.isEmpty {
 					Section {
-						Text(.localized("No certificates are available right now."))
-							.font(.footnote)
-							.foregroundColor(.secondary)
+						Text(
+							_showAll
+								? .localized("No certificates are available right now.")
+								: .localized("sideloading.net has no valid certificates right now. Switch to All to pick a revoked one.")
+						)
+						.font(.footnote)
+						.foregroundColor(.secondary)
 					}
 				} else {
 					Section {
@@ -87,14 +110,14 @@ struct CertificatesAutoView: View {
 			.toolbar {
 				NBToolbarButton(role: .cancel)
 
-				if let best = _service.bestCertificate {
+				if let best = _bestCertificate {
 					NBToolbarButton(
 						.localized("Best"),
 						style: .text,
 						placement: .confirmationAction,
 						isDisabled: _importingID != nil
 					) {
-						_import(best)
+						_requestImport(best)
 					}
 				}
 			}
@@ -106,46 +129,84 @@ struct CertificatesAutoView: View {
 extension CertificatesAutoView {
 	@ViewBuilder
 	private func _row(for cert: SideloadingCertificate) -> some View {
-		HStack(spacing: 12) {
-			Image(systemName: cert.isValid ? "checkmark.seal.fill" : "xmark.seal.fill")
-				.font(.title3)
-				.foregroundColor(cert.isValid ? .green : .red)
+		Button {
+			_requestImport(cert)
+		} label: {
+			HStack(spacing: 12) {
+				Image(systemName: cert.isValid ? "checkmark.seal.fill" : "xmark.seal.fill")
+					.font(.title3)
+					.foregroundColor(cert.isValid ? .green : .red)
 
-			VStack(alignment: .leading, spacing: 3) {
-				Text(cert.displayName)
-					.font(.subheadline.weight(.semibold))
-					.lineLimit(2)
+				VStack(alignment: .leading, spacing: 3) {
+					Text(cert.displayName)
+						.font(.subheadline.weight(.semibold))
+						.lineLimit(2)
 
-				HStack(spacing: 5) {
-					Text(cert.status)
-						.font(.caption2)
-						.foregroundColor(cert.isRevoked ? .red : .secondary)
+					HStack(spacing: 5) {
+						Text(cert.status)
+							.font(.caption2)
+							.foregroundColor(cert.isRevoked ? .red : .secondary)
 
-					Text(verbatim: "\u{00b7}")
-						.font(.caption2)
-						.foregroundColor(.secondary)
+						Text(verbatim: "\u{00b7}")
+							.font(.caption2)
+							.foregroundColor(.secondary)
 
-					Text(cert.expiryDescription)
-						.font(.caption2)
-						.foregroundColor(.secondary)
+						Text(cert.expiryDescription)
+							.font(.caption2)
+							.foregroundColor(.secondary)
+					}
+				}
+
+				Spacer(minLength: 8)
+
+				if _importingID == cert.id {
+					ProgressView()
+				} else {
+					Text(.localized("Use"))
+						.font(.footnote.weight(.semibold))
+						.foregroundColor(cert.isValid ? .accentColor : .secondary)
 				}
 			}
-
-			Spacer(minLength: 8)
-
-			if _importingID == cert.id {
-				ProgressView()
-			} else if cert.isValid {
-				Button {
-					_import(cert)
-				} label: {
-					NBButton(.localized("Use"), style: .text)
-				}
-				.buttonStyle(.plain)
-				.disabled(_importingID != nil)
-			}
+			.contentShape(Rectangle())
 		}
+		.buttonStyle(.plain)
+		.disabled(_importingID != nil)
 		.padding(.vertical, 2)
+	}
+
+	private func _requestImport(_ cert: SideloadingCertificate) {
+		guard _importingID == nil else { return }
+		guard !cert.isValid else {
+			_import(cert)
+			return
+		}
+
+		let importAction = UIAlertAction(
+			title: .localized("Import Anyway"),
+			style: .destructive
+		) { _ in
+			_import(cert)
+		}
+
+		let reason: String = {
+			if cert.isRevoked && cert.isExpired {
+				return .localized("sideloading.net marks this certificate as revoked, and its profile has expired.")
+			}
+			if cert.isRevoked {
+				return .localized("sideloading.net marks this certificate as revoked.")
+			}
+			return .localized("This certificate's provisioning profile has expired.")
+		}()
+
+		UIAlertController.showAlertWithCancel(
+			title: .localized("This certificate cannot be trusted"),
+			message: reason
+				+ "\n\n"
+				+ .localized("iOS will show “Unable to Verify App” for apps signed with it. Import it anyway?")
+				+ "\n\n"
+				+ .localized("Choose Cancel to pick a different certificate."),
+			actions: [importAction]
+		)
 	}
 
 	private func _import(_ cert: SideloadingCertificate) {

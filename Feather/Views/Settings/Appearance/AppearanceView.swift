@@ -199,35 +199,47 @@ extension AppearanceView {
 		}
 	}
 
+	/// A real Library row, so the layout pickers above change a row exactly
+	/// the way they change the Library and Sources lists.
 	private var _preview: some View {
-		HStack(spacing: 10) {
-			Image(systemName: "checkmark.seal.fill")
-				.font(.title3)
-				.foregroundColor(Color(hex: _selectedColorHex))
+		let metrics = AppStyleStore.rowMetrics(density: _density, cardShape: _cardShape)
+
+		return HStack(spacing: metrics.spacing) {
+			RoundedRectangle(cornerRadius: metrics.iconSize * 0.24, style: .continuous)
+				.fill(Color(hex: _selectedColorHex).opacity(0.20))
+				.frame(width: metrics.iconSize, height: metrics.iconSize)
+				.overlay(
+					Image(systemName: "app.fill")
+						.font(.system(size: metrics.iconSize * 0.44))
+						.foregroundColor(Color(hex: _selectedColorHex))
+				)
 
 			VStack(alignment: .leading, spacing: 2) {
-				Text(.localized("Sample Certificate"))
+				Text(.localized("Sample App"))
 					.font(.subheadline.weight(.semibold))
-				Text(.localized("Valid until next year"))
+				Text(.localized("1.0 • com.example.app"))
 					.font(.caption)
 					.foregroundColor(.secondary)
 			}
 
 			Spacer(minLength: 6)
 
-			Text(.localized("PPQCheck"))
-				.font(.caption2)
+			Text(.localized("Install"))
+				.font(.caption2.weight(.semibold))
 				.padding(.horizontal, 8)
 				.padding(.vertical, 4)
 				.background(Color(hex: _selectedColorHex).opacity(0.16))
 				.clipShape(Capsule())
 		}
-		.padding(AppStyleStore.cardPadding)
+		.padding(metrics.padding)
 		.background(
-			RoundedRectangle(cornerRadius: AppStyleStore.cardCornerRadius(), style: .continuous)
-				.fill(Color(uiColor: .quaternarySystemFill))
+			RoundedRectangle(cornerRadius: metrics.cornerRadius, style: .continuous)
+				.fill(Color(uiColor: .secondarySystemBackground))
+				.shadow(color: .black.opacity(0.07), radius: 6, x: 0, y: 2)
 		)
 		.listRowInsets(EdgeInsets())
 		.listRowBackground(EmptyView())
+		.animation(.easeInOut(duration: 0.2), value: metrics.padding)
+		.animation(.easeInOut(duration: 0.2), value: metrics.cornerRadius)
 	}
 }
