@@ -1,6 +1,9 @@
 name: Rename to SEUsign
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -29,4 +32,6 @@ jobs:
             exit 0
           fi
           git commit -m "feat: rename the app to SEUsign"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
