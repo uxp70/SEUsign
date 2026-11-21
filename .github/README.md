@@ -32,19 +32,6 @@ Visit [releases](https://github.com/uxp70/SEUsign/releases) and get the latest `
    <img src="https://github.com/CelloSerenity/altdirect/blob/main/assets/png/Download_Blue.png?raw=true" alt="Download .ipa" width="200">
 </a>
 
-## Building
-
-SEUsign is an iOS app built with Xcode. To build it yourself:
-
-1. Clone the repository (including submodules):
-   ```
-   git clone --recurse-submodules https://github.com/uxp70/SEUsign.git
-   ```
-2. Open `SEUsign.xcworkspace` in Xcode.
-3. Select the `SEUsign` scheme and build for your device.
-
-Alternatively, the GitHub Actions workflow (`.github/workflows/release.yml`) builds on a macOS runner and produces `packages/SEUsign.ipa`. Trigger it manually from the Actions tab or by pushing a `v*` tag.
-
 ## Translating
 
 SEUsign has translation support. All localizations are located in `SEUsign/Resources/Localizable.xcstrings`.
