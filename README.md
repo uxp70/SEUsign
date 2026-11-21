@@ -23,6 +23,8 @@ A rebranded, independently maintained fork of [Feather](https://github.com/clara
   - This includes patching apps for compatibility and Liquid Glass.
 - Tweak support for advanced users, using [Ellekit](https://github.com/tealbathingsuit/ellekit) for injection.
   - Supports injecting `.deb` and `.dylib` files.
+- Automatic certificates: browse and import a certificate, provisioning profile and password from [sideloading.net](https://sideloading.net/api/) in one tap, verify an imported certificate remotely, and recover a forgotten `.p12` password.
+- Interface styles: preset styles, accent palette, density, card shape and background options.
 - No tracking or analytics, ensuring user privacy.
 - Open source and free.
 

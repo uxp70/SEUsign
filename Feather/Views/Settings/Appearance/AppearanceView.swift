@@ -12,32 +12,44 @@ import UIKit
 // MARK: - View
 // dear god help me
 struct AppearanceView: View {
-	@AppStorage("SEUsign.userInterfaceStyle")
+	@AppStorage(AppStyleStore.interfaceStyleKey)
 	private var _userIntefacerStyle: Int = UIUserInterfaceStyle.unspecified.rawValue
-	
+
+	@AppStorage(AppStyleStore.styleKey)
+	private var _appStyle: String = AppStyle.seal.rawValue
+
+	@AppStorage(AppStyleStore.densityKey)
+	private var _density: Int = AppDensity.comfortable.rawValue
+
+	@AppStorage(AppStyleStore.cardShapeKey)
+	private var _cardShape: Int = AppCardShape.rounded.rawValue
+
+	@AppStorage(AppStyleStore.backdropKey)
+	private var _backdrop: Int = AppBackdropStyle.system.rawValue
+
 	@AppStorage("SEUsign.shouldTintIcons")
 	private var _shouldTintIcons: Bool = false
-	
+
 	@AppStorage("SEUsign.shouldChangeIconsBasedOffStyle")
 	private var _shouldChangeIconsBasedOffStyle: Bool = false
-	
+
 	@AppStorage("SEUsign.storeCellAppearance")
 	private var _storeCellAppearance: Int = 0
 	private let _storeCellAppearanceMethods: [(name: String, desc: String)] = [
 		(.localized("Standard"), .localized("Default style for the app, only includes subtitle.")),
 		(.localized("Big Description"), .localized("Adds the localized description of the app."))
 	]
-	
-	@AppStorage("SEUsign.userTintColor")
+
+	@AppStorage(AppStyleStore.tintKey)
 	private var _selectedColorHex: String = "#C8873A"
-	
+
 	private var _tintColorBinding: Binding<Color> {
 		Binding(
 			get: { Color(hex: _selectedColorHex) },
 			set: { _selectedColorHex = $0.toHex() }
 		)
 	}
-	
+
 	// MARK: Body
 	var body: some View {
 		NBList(.localized("Appearance")) {
@@ -49,13 +61,21 @@ struct AppearanceView: View {
 				}
 				.pickerStyle(.segmented)
 			}
-			
+
+			NBSection(.localized("Styles"), systemName: "paintpalette") {
+				_stylePresets
+					.listRowInsets(EdgeInsets())
+					.listRowBackground(EmptyView())
+			} footer: {
+				Text(.localized("Styles set the accent colour, the light or dark appearance, and the shape of the cards used throughout the app."))
+			}
+
 			NBSection(.localized("Theme")) {
 				AppearanceTintColorView()
 					.listRowInsets(EdgeInsets())
 					.listRowBackground(EmptyView())
 			}
-			
+
 			Section {
 				ColorPicker(
 					.localized("Custom Theme Color"),
@@ -63,7 +83,39 @@ struct AppearanceView: View {
 					supportsOpacity: false
 				)
 			}
-			
+
+			NBSection(.localized("Layout")) {
+				Picker(.localized("Density"), selection: $_density) {
+					ForEach(AppDensity.allCases) { density in
+						NBTitleWithSubtitleView(
+							title: density.title,
+							subtitle: density.detail
+						)
+						.tag(density.rawValue)
+					}
+				}
+				.labelsHidden()
+				.pickerStyle(.inline)
+
+				Picker(.localized("Card Shape"), selection: $_cardShape) {
+					ForEach(AppCardShape.allCases) { shape in
+						Text(shape.title).tag(shape.rawValue)
+					}
+				}
+				.pickerStyle(.segmented)
+
+				Picker(.localized("Background"), selection: $_backdrop) {
+					ForEach(AppBackdropStyle.allCases) { backdrop in
+						Text(backdrop.title).tag(backdrop.rawValue)
+					}
+				}
+				.pickerStyle(.segmented)
+
+				_preview
+			} footer: {
+				Text(.localized("Density changes how much content fits on screen, and the background tints the space behind the app."))
+			}
+
 			if #available(iOS 18.0, *) {
 				NBSection(.localized("Library")) {
 					Toggle(.localized("Dynamic Icons"), isOn: $_shouldChangeIconsBasedOffStyle)
@@ -72,7 +124,7 @@ struct AppearanceView: View {
 					}
 				}
 			}
-			
+
 			NBSection(.localized("Sources")) {
 				Picker(.localized("Store Cell Appearance"), selection: $_storeCellAppearance) {
 					ForEach(0..<_storeCellAppearanceMethods.count, id: \.self) { index in
@@ -94,5 +146,88 @@ struct AppearanceView: View {
 				UIApplication.topViewController()?.view.window?.overrideUserInterfaceStyle = style
 			}
 		}
+		.onChange(of: _selectedColorHex) { value in
+			UIApplication.topViewController()?.view.window?.tintColor = UIColor(Color(hex: value))
+		}
+	}
+}
+
+// MARK: - Extension: View
+extension AppearanceView {
+	private var _stylePresets: some View {
+		ScrollView(.horizontal, showsIndicators: false) {
+			HStack(spacing: 12) {
+				ForEach(AppStyle.allCases) { style in
+					let isSelected = _appStyle == style.rawValue
+
+					VStack(spacing: 8) {
+						ZStack {
+							RoundedRectangle(cornerRadius: 14, style: .continuous)
+								.fill(Color(hex: style.tintHex).opacity(0.18))
+								.frame(width: 54, height: 54)
+							Image(systemName: style.symbol)
+								.font(.title3)
+								.foregroundColor(Color(hex: style.tintHex))
+						}
+
+						Text(style.title)
+							.font(.subheadline)
+							.foregroundColor(.secondary)
+					}
+					.frame(width: 96, height: 104)
+					.background(Color(uiColor: .secondarySystemGroupedBackground))
+					.clipShape(
+						RoundedRectangle(cornerRadius: AppStyleStore.cardCornerRadius(), style: .continuous)
+					)
+					.overlay(
+						RoundedRectangle(cornerRadius: AppStyleStore.cardCornerRadius(), style: .continuous)
+							.strokeBorder(isSelected ? Color(hex: style.tintHex) : .clear, lineWidth: 2)
+					)
+					.onTapGesture {
+						_appStyle = style.rawValue
+						_selectedColorHex = style.tintHex
+						_userIntefacerStyle = style.interfaceStyle.rawValue
+						style.apply()
+					}
+					.accessibilityLabel(Text(style.title))
+				}
+			}
+			.padding(.vertical, 4)
+		}
+		.onChange(of: _selectedColorHex) { value in
+			UIApplication.topViewController()?.view.window?.tintColor = UIColor(Color(hex: value))
+		}
+	}
+
+	private var _preview: some View {
+		HStack(spacing: 10) {
+			Image(systemName: "checkmark.seal.fill")
+				.font(.title3)
+				.foregroundColor(Color(hex: _selectedColorHex))
+
+			VStack(alignment: .leading, spacing: 2) {
+				Text(.localized("Sample Certificate"))
+					.font(.subheadline.weight(.semibold))
+				Text(.localized("Valid until next year"))
+					.font(.caption)
+					.foregroundColor(.secondary)
+			}
+
+			Spacer(minLength: 6)
+
+			Text(.localized("PPQCheck"))
+				.font(.caption2)
+				.padding(.horizontal, 8)
+				.padding(.vertical, 4)
+				.background(Color(hex: _selectedColorHex).opacity(0.16))
+				.clipShape(Capsule())
+		}
+		.padding(AppStyleStore.cardPadding)
+		.background(
+			RoundedRectangle(cornerRadius: AppStyleStore.cardCornerRadius(), style: .continuous)
+				.fill(Color(uiColor: .quaternarySystemFill))
+		)
+		.listRowInsets(EdgeInsets())
+		.listRowBackground(EmptyView())
 	}
 }
