@@ -14,21 +14,29 @@
       "tintColor": "c8873a",
       "versions": [
         {
-          "version": "4.0.0",
-          "date": "2026-11-21T17:05:38Z",
-          "size": 14439797,
-          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.0.0/SEUsign.ipa"
+          "version": "4.1.0",
+          "date": "2026-11-21T19:06:19Z",
+          "size": 14456050,
+          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.1.0/SEUsign.ipa"
         }
       ],
       "appPermissions": {},
       "screenshotURLs": [],
-      "version": "4.0.0",
-      "versionDate": "2026-11-21T17:05:38Z",
-      "size": 14439797,
-      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.0.0/SEUsign.ipa"
+      "version": "4.1.0",
+      "versionDate": "2026-11-21T19:06:19Z",
+      "size": 14456050,
+      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.1.0/SEUsign.ipa"
     }
   ],
   "news": [
+    {
+      "title": "SEUsign 4.1.0",
+      "identifier": "seusign-410",
+      "caption": "Certificate uploads now ask first: remote verification and password recovery show a plain warning that the .p12 and its password go to sideloading.net before anything leaves your device. Density and card shape now change the Library and Sources lists, and a new Unable to Verify App screen explains Apple's developer trust check, tests ocsp.apple.com and ppq.apple.com, and opens VPN & Device Management. Certificates are also re-checked for revocation on every launch, so a revoked certificate is flagged before it signs anything.",
+      "tintColor": "C8873A",
+      "date": "2026-11-21",
+      "notify": true
+    },
     {
       "title": "SEUsign 4.0.0",
       "identifier": "seusign-400",
