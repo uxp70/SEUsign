@@ -1,13 +1,15 @@
-# SEUsign
+# Sigil
 
 [![GitHub Release](https://img.shields.io/github/v/release/uxp70/SEUsign?include_prereleases)](https://github.com/uxp70/SEUsign/releases)
-[![GitHub License](https://img.shields.io/github/license/uxp70/SEUsign?color=%23C96FAD)](https://github.com/uxp70/SEUsign/blob/main/LICENSE)
+[![GitHub License](https://img.shields.io/github/license/uxp70/SEUsign?color=%23C8873A)](https://github.com/uxp70/SEUsign/blob/main/LICENSE)
 
 <div align="center">
 
-<img title="SEUsign" alt="SEUsign" height="180" src=".github/landing.png">
+<img title="Sigil" alt="Sigil" height="180" src="Feather/Resources/Assets.xcassets/AppIcon.appiconset/feather.png">
 
-Sideloading app meant for developer certificates. A fork of [Feather](https://github.com/claration/Feather) by Samara, rebranded as **SEUsign**.
+**Sigil** --- on-device app signing for iOS.
+
+A rebranded, independently maintained fork of [Feather](https://github.com/claration/Feather) by Samara.
 
 </div>
 
@@ -28,26 +30,28 @@ Sideloading app meant for developer certificates. A fork of [Feather](https://gi
 
 Visit [releases](https://github.com/uxp70/SEUsign/releases) and get the latest `.ipa`.
 
-<a href="https://github.com/uxp70/SEUsign/releases/latest/download/SEUsign.ipa" target="_blank">
+<a href="https://github.com/uxp70/SEUsign/releases/latest/download/Sigil.ipa" target="_blank">
    <img src="https://github.com/CelloSerenity/altdirect/blob/main/assets/png/Download_Blue.png?raw=true" alt="Download .ipa" width="200">
 </a>
 
 ## Building
 
-SEUsign is an iOS app built with Xcode. To build it yourself:
+Sigil is an iOS app built with Xcode. To build it yourself:
 
 1. Clone the repository (including submodules):
    ```
    git clone --recurse-submodules https://github.com/uxp70/SEUsign.git
    ```
-2. Open `SEUsign.xcworkspace` in Xcode.
-3. Select the `SEUsign` scheme and build for your device.
+2. Open `Feather.xcworkspace` in Xcode.
+3. Select the `Feather` scheme and build for your device.
 
-Alternatively, the GitHub Actions workflow (`.github/workflows/release.yml`) builds on a macOS runner and produces `packages/SEUsign.ipa`. Trigger it manually from the Actions tab or by pushing a `v*` tag.
+Alternatively, the GitHub Actions workflow (`.github/workflows/release.yml`) builds on a macOS runner and produces `packages/Sigil.ipa`. Trigger it manually from the Actions tab or by pushing a `v*` tag.
+
+The Mac Catalyst build is packaged as `packages/Sigil_Catalyst.zip`.
 
 ## Translating
 
-SEUsign has translation support. All localizations are located in `SEUsign/Resources/Localizable.xcstrings`.
+Sigil has translation support. All localizations are located in `Feather/Resources/Localizable.xcstrings`.
 
 To add a new language, open Xcode and use the interface to add/contribute to languages.
 

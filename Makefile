@@ -1,4 +1,4 @@
-NAME := Feather
+NAME := Sigil
 SCHEME := Feather
 PLATFORMS := iphoneos maccatalyst
 
@@ -43,15 +43,15 @@ $(PLATFORMS): deps
 		ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES=NO
 
 	mkdir -p _build/Payload
-	cp -R _build/Applications/*.app _build/Payload/SEUsign.app
-	chmod -R 0755 _build/Payload/SEUsign.app
-	codesign --force --sign - --timestamp=none _build/Payload/SEUsign.app
-	cp deps/* _build/Payload/SEUsign.app/ || true
+	cp -R _build/Applications/*.app _build/Payload/Sigil.app
+	chmod -R 0755 _build/Payload/Sigil.app
+	codesign --force --sign - --timestamp=none _build/Payload/Sigil.app
+	cp deps/* _build/Payload/Sigil.app/ || true
 
 	mkdir -p packages
 
 	@if [ "$@" = "iphoneos" ]; then \
-		ditto -c -k --sequesterRsrc --keepParent _build/Payload "packages/SEUsign.ipa"; \
+		ditto -c -k --sequesterRsrc --keepParent _build/Payload "packages/Sigil.ipa"; \
 	else \
-		ditto -c -k --sequesterRsrc --keepParent _build/Payload/SEUsign.app "packages/SEUsign_Catalyst.zip"; \
+		ditto -c -k --sequesterRsrc --keepParent _build/Payload/Sigil.app "packages/Sigil_Catalyst.zip"; \
 	fi

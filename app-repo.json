@@ -1,57 +1,40 @@
 {
-  "name": "SEUsign Repository",
-  "identifier": "kh.crysalis.feather-repo",
-  "iconURL": "https://github.com/khcrysalis/Feather/blob/v1.x/iOS/Resources/Icons/Main/Mac@3x.png?raw=true",
-  "website": "https://github.com/khcrysalis/Feather",
+  "name": "Sigil Repository",
+  "identifier": "sigil-repo",
+  "iconURL": "https://raw.githubusercontent.com/uxp70/SEUsign/main/Feather/Resources/Assets.xcassets/AppIcon.appiconset/feather.png",
+  "website": "https://github.com/uxp70/SEUsign",
   "apps": [
     {
-      "name": "SEUsign",
-      "bundleIdentifier": "thewonderofyou.SEUsign",
-      "developerName": "Samara",
-      "iconURL": "https://github.com/khcrysalis/Feather/blob/v1.x/iOS/Resources/Icons/Main/Mac@3x.png?raw=true",
-      "localizedDescription": "SEUsign is a free on-device iOS application manager/installer built with UIKit for quality.",
+      "name": "Sigil",
+      "bundleIdentifier": "thewonderofyou.Feather",
+      "developerName": "uxp70",
+      "iconURL": "https://raw.githubusercontent.com/uxp70/SEUsign/main/Feather/Resources/Assets.xcassets/AppIcon.appiconset/feather.png",
+      "localizedDescription": "Sigil is a free on-device iOS application manager and signer. Sign, install and manage your own apps straight from your device.",
       "subtitle": "On-device signing application",
-      "tintColor": "848ef9",
+      "tintColor": "c8873a",
       "versions": [
         {
-          "version": "2.9.1",
-          "date": "2026-11-21T12:09:42Z",
-          "size": 14186978,
-          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v2.9.1/SEUsign.ipa"
+          "version": "3.0.0",
+          "date": "2026-11-21T00:00:00Z",
+          "size": 0,
+          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v3.0.0/Sigil.ipa"
         }
       ],
       "appPermissions": {},
-      "screenshotURLs": [
-        "https://github.com/khcrysalis/Feather/blob/v1.x/Images/Library.png?raw=true",
-        "https://github.com/khcrysalis/Feather/blob/v1.x/Images/Repos.png?raw=true",
-        "https://github.com/khcrysalis/Feather/blob/v1.x/Images/Sign.png?raw=true",
-        "https://github.com/khcrysalis/Feather/blob/v1.x/Images/Store.png?raw=true"
-      ],
-      "version": "2.9.1",
-      "versionDate": "2026-11-21T12:09:42Z",
-      "size": 14186978,
-      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v2.9.1/SEUsign.ipa"
+      "screenshotURLs": [],
+      "version": "3.0.0",
+      "versionDate": "2026-11-21T00:00:00Z",
+      "size": 0,
+      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v3.0.0/Sigil.ipa"
     }
   ],
   "news": [
     {
-      "title": "Donate",
-      "identifier": "feather-donate",
-      "caption": "SEUsign is a free project and is not made possible without my sponsors! Feel free to donate, it helps keep me motivated in making new updates for this app, and thank you everyone.",
-      "tintColor": "848ef9",
-      "imageURL": "https://github.com/khcrysalis/Feather/blob/v1.x/Images/donate.png?raw=true",
-      "date": "2025-02-04",
-      "url": "https://github.com/sponsors/khcrysalis",
-      "notify": false
-    },
-    {
-      "title": "About Feather",
-      "identifier": "feather-about",
-      "caption": "Feather allows you to use an Apple Developer Account to sign and install applications on device without needing a computer on stock iOS versions, while allowing easy management with its applications.\n\nDue to limitations, it's hard to tell if the application is actually installed, so you will need to keep track of whats on your device. This is an entirely stock application and uses built-in features to be able to do this!",
-      "tintColor": "8A28F7",
-      "imageURL": "https://media.idownloadblog.com/wp-content/uploads/2024/08/Feather-on-device-signing-UI-app.jpg",
-      "url": "https://github.com/khcrysalis/feather",
-      "date": "2025-02-03",
+      "title": "Sigil 3.0.0",
+      "identifier": "sigil-300",
+      "caption": "Sigil has a new name, a new seal for its icon, and a reworked interior: brass accent, refreshed appearance options and a cleaner settings screen. Under the hood it is still the same on-device signer, built on the open source Feather project.",
+      "tintColor": "C8873A",
+      "date": "2026-11-21",
       "notify": true
     }
   ]

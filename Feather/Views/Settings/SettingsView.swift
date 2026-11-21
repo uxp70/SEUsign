@@ -13,7 +13,7 @@ import IDeviceSwift
 
 // MARK: - View
 struct SettingsView: View {
-	@AppStorage("feather.selectedCert") private var _storedSelectedCert: Int = 0
+	@AppStorage("sigil.selectedCert") private var _storedSelectedCert: Int = 0
 	@State private var _currentIcon: String? = UIApplication.shared.alternateIconName
 	
 	// MARK: Fetch
@@ -34,16 +34,12 @@ struct SettingsView: View {
 	}
 
     
-	private let _donationsUrl = "https://github.com/sponsors/claration"
-	private let _githubUrl = "https://github.com/claration/Feather"
+	private let _githubUrl = "https://github.com/uxp70/SEUsign"
     
 	// MARK: Body
 	var body: some View {
 		NBNavigationView(.localized("Settings")) {
 			Form {
-				#if !NIGHTLY && !DEBUG
-					SettingsDonationCellView(site: _donationsUrl)
-				#endif
                 
 				_feedback()
                 

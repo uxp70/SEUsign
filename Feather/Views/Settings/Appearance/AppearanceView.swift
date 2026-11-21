@@ -12,24 +12,24 @@ import UIKit
 // MARK: - View
 // dear god help me
 struct AppearanceView: View {
-	@AppStorage("Feather.userInterfaceStyle")
+	@AppStorage("Sigil.userInterfaceStyle")
 	private var _userIntefacerStyle: Int = UIUserInterfaceStyle.unspecified.rawValue
 	
-	@AppStorage("Feather.shouldTintIcons")
+	@AppStorage("Sigil.shouldTintIcons")
 	private var _shouldTintIcons: Bool = false
 	
-	@AppStorage("Feather.shouldChangeIconsBasedOffStyle")
+	@AppStorage("Sigil.shouldChangeIconsBasedOffStyle")
 	private var _shouldChangeIconsBasedOffStyle: Bool = false
 	
-	@AppStorage("Feather.storeCellAppearance")
+	@AppStorage("Sigil.storeCellAppearance")
 	private var _storeCellAppearance: Int = 0
 	private let _storeCellAppearanceMethods: [(name: String, desc: String)] = [
 		(.localized("Standard"), .localized("Default style for the app, only includes subtitle.")),
 		(.localized("Big Description"), .localized("Adds the localized description of the app."))
 	]
 	
-	@AppStorage("Feather.userTintColor")
-	private var _selectedColorHex: String = "#848ef9"
+	@AppStorage("Sigil.userTintColor")
+	private var _selectedColorHex: String = "#C8873A"
 	
 	private var _tintColorBinding: Binding<Color> {
 		Binding(

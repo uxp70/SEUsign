@@ -16,7 +16,7 @@ workflows:
             #!/bin/bash
             brew install jq || true
     - script@1:
-        title: Build SEUsign
+        title: Build Sigil
         inputs:
         - content: |
             #!/bin/bash

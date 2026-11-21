@@ -14,7 +14,7 @@ import NimbleViews
 struct SourcesView: View {
 	@Environment(\.horizontalSizeClass) private var horizontalSizeClass
 	#if !NIGHTLY && !DEBUG
-		@AppStorage("Feather.shouldStar") private var _shouldStar: Int = 0
+		@AppStorage("Sigil.shouldStar") private var _shouldStar: Int = 0
 	#endif
 	@StateObject var viewModel = SourcesViewModel.shared
 	@State private var _isAddingPresenting = false
@@ -118,7 +118,7 @@ struct SourcesView: View {
 				guard _shouldStar == 6 else { return }
 			
 				let github = UIAlertAction(title: "GitHub", style: .default) { _ in
-					UIApplication.open("https://github.com/khcrysalis/Feather")
+					UIApplication.open("https://github.com/uxp70/SEUsign")
 				}
 			
 				let cancel = UIAlertAction(title: .localized("Dismiss"), style: .cancel)

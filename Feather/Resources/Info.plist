@@ -117,6 +117,7 @@
 			<string>thewonderofyou.Feather</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>sigil</string>
 				<string>feather</string>
 			</array>
 		</dict>
