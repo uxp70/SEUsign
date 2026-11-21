@@ -14,25 +14,25 @@
       "tintColor": "c8873a",
       "versions": [
         {
-          "version": "4.3.1",
-          "date": "2026-11-21T21:42:08Z",
-          "size": 14468756,
-          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.3.1/SEUsign.ipa"
+          "version": "4.3.2",
+          "date": "2026-11-21T22:12:49Z",
+          "size": 14468965,
+          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.3.2/SEUsign.ipa"
         }
       ],
       "appPermissions": {},
       "screenshotURLs": [],
-      "version": "4.3.1",
-      "versionDate": "2026-11-21T21:42:08Z",
-      "size": 14468756,
-      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.3.1/SEUsign.ipa"
+      "version": "4.3.2",
+      "versionDate": "2026-11-21T22:12:49Z",
+      "size": 14468965,
+      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v4.3.2/SEUsign.ipa"
     }
   ],
   "news": [
     {
-      "title": "SEUsign 4.3.1",
-      "identifier": "seusign-431",
-      "caption": "The app now adds the SEU community repository (DatOneFlareon/The-SEU-app-repo-for-the-gangalang) as a source on first launch, so its apps arrive in Sources without pasting the URL by hand. It is added once: deleting it later is respected, and a failed fetch is retried next launch.",
+      "title": "SEUsign 4.3.2",
+      "identifier": "seusign-432",
+      "caption": "The app now adds the SEU community repository (DatOneFlareon/The-SEU-app-repo-for-the-gangalang) as a source on its own, so its apps arrive in Sources without pasting the URL. 4.3.0 briefly added the app source instead; that entry is removed once so the list matches. The source is added once only, and a failed fetch is retried next launch.",
       "tintColor": "C8873A",
       "date": "2026-11-21",
       "notify": true
