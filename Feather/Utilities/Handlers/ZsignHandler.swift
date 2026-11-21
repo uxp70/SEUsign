@@ -50,7 +50,7 @@ final class ZsignHandler {
 		guard !cert.revoked else {
 			throw ZsignCertificateError.revoked
 		}
-		guard cert.expiration > Date() else {
+		if let expiration = cert.expiration, expiration <= Date() {
 			throw ZsignCertificateError.expired
 		}
 
