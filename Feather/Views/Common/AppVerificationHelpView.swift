@@ -20,6 +20,10 @@ struct AppVerificationHelpView: View {
 	@State private var _isChecking = false
 	@State private var _serverResults: [ServerResult] = []
 
+	init(certificate: CertificatePair? = nil) {
+		self.certificate = certificate
+	}
+
 	struct ServerResult: Identifiable {
 		let id = UUID()
 		let host: String
