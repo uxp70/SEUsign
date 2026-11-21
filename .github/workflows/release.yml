@@ -53,16 +53,16 @@ jobs:
         run: |
           # After the Catalyst pass, _build/Payload holds a macOS-style bundle
           # (Contents/Info.plist), so read the version from the shipped IPA.
-          unzip -p packages/Sigil.ipa Payload/Sigil.app/Info.plist > "$RUNNER_TEMP/Info.plist"
+          unzip -p packages/SEUsign.ipa Payload/SEUsign.app/Info.plist > "$RUNNER_TEMP/Info.plist"
           VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$RUNNER_TEMP/Info.plist")
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
-          echo "Sigil v${VERSION}"
+          echo "SEUsign v${VERSION}"
           ls -lh packages
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
-          name: Sigil-packages
+          name: SEUsign-packages
           path: packages/*
           if-no-files-found: error
           retention-days: 30
@@ -71,7 +71,7 @@ jobs:
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v3.0.2
         with:
-          name: Sigil v${{ env.VERSION }}
+          name: SEUsign v${{ env.VERSION }}
           tag_name: ${{ github.ref_name }}
           files: |
             packages/*

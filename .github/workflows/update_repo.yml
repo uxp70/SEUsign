@@ -26,7 +26,7 @@ jobs:
           DATE="${{ github.event.release.published_at }}"
           VERSION="${TAG#v}"
 
-          DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}/Sigil.ipa"
+          DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}/SEUsign.ipa"
 
           jq \
             --arg version "$VERSION" \
