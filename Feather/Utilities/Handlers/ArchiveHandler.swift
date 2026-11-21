@@ -25,7 +25,7 @@ final class ArchiveHandler: NSObject {
 		self.viewModel = viewModel
 		self._app = app
 		self._uniqueWorkDir = _fileManager.temporaryDirectory
-			.appendingPathComponent("SigilInstall_\(_uuid)", isDirectory: true)
+			.appendingPathComponent("SEUsignInstall_\(_uuid)", isDirectory: true)
 		
 		super.init()
 	}
@@ -88,6 +88,6 @@ final class ArchiveHandler: NSObject {
 	}
 	
 	static func getCompressionLevel() -> Int {
-		UserDefaults.standard.integer(forKey: "Sigil.compressionLevel")
+		UserDefaults.standard.integer(forKey: "SEUsign.compressionLevel")
 	}
 }

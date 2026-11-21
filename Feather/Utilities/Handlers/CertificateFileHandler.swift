@@ -67,7 +67,7 @@ final class CertificateFileHandler: NSObject {
 	}
 	
 	private func _directory() async throws -> URL {
-		// Documents/Sigil/Certificates/\(UUID)
+		// Documents/SEUsign/Certificates/\(UUID)
 		_fileManager.certificates(_uuid)
 	}
 }

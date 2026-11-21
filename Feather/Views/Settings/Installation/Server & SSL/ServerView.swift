@@ -48,8 +48,8 @@ extension ServerView {
 
 // MARK: - View
 struct ServerView: View {
-	@AppStorage("Sigil.ipFix") private var _ipFix: Bool = false
-	@AppStorage("Sigil.serverMethod") private var _serverMethod: Int = 0
+	@AppStorage("SEUsign.ipFix") private var _ipFix: Bool = false
+	@AppStorage("SEUsign.serverMethod") private var _serverMethod: Int = 0
 	private let _serverMethods: [String] = [.localized("Fully Local"), .localized("Semi Local")]
 	
 	private let _dataService = NBFetchService()

@@ -38,7 +38,7 @@ struct SigningEntitlementsView: View {
 				onDocumentsPicked: { urls in
 					guard let selectedFileURL = urls.first else { return }
 					
-					FileManager.default.moveAndStore(selectedFileURL, with: "SigilEntitlement") { url in
+					FileManager.default.moveAndStore(selectedFileURL, with: "SEUsignEntitlement") { url in
 						bindingValue = url
 					}
 				}

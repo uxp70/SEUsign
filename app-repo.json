@@ -1,15 +1,15 @@
 {
-  "name": "Sigil Repository",
-  "identifier": "sigil-repo",
+  "name": "SEUsign Repository",
+  "identifier": "seusign-repo",
   "iconURL": "https://raw.githubusercontent.com/uxp70/SEUsign/main/Feather/Resources/Assets.xcassets/AppIcon.appiconset/feather.png",
   "website": "https://github.com/uxp70/SEUsign",
   "apps": [
     {
-      "name": "Sigil",
+      "name": "SEUsign",
       "bundleIdentifier": "thewonderofyou.Feather",
       "developerName": "uxp70",
       "iconURL": "https://raw.githubusercontent.com/uxp70/SEUsign/main/Feather/Resources/Assets.xcassets/AppIcon.appiconset/feather.png",
-      "localizedDescription": "Sigil is a free on-device iOS application manager and signer. Sign, install and manage your own apps straight from your device.",
+      "localizedDescription": "SEUsign is a free on-device iOS application manager and signer. Sign, install and manage your own apps straight from your device.",
       "subtitle": "On-device signing application",
       "tintColor": "c8873a",
       "versions": [
@@ -17,7 +17,7 @@
           "version": "3.0.0",
           "date": "2026-11-21T14:51:01Z",
           "size": 14373173,
-          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v3.0.0/Sigil.ipa"
+          "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v3.0.0/SEUsign.ipa"
         }
       ],
       "appPermissions": {},
@@ -25,14 +25,14 @@
       "version": "3.0.0",
       "versionDate": "2026-11-21T14:51:01Z",
       "size": 14373173,
-      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v3.0.0/Sigil.ipa"
+      "downloadURL": "https://github.com/uxp70/SEUsign/releases/download/v3.0.0/SEUsign.ipa"
     }
   ],
   "news": [
     {
-      "title": "Sigil 3.0.0",
-      "identifier": "sigil-300",
-      "caption": "Sigil has a new name, a new seal for its icon, and a reworked interior: brass accent, refreshed appearance options and a cleaner settings screen. Under the hood it is still the same on-device signer, built on the open source Feather project.",
+      "title": "SEUsign 3.0.0",
+      "identifier": "seusign-300",
+      "caption": "SEUsign has a new name, a new seal for its icon, and a reworked interior: brass accent, refreshed appearance options and a cleaner settings screen. Under the hood it is still the same on-device signer, built on the open source Feather project.",
       "tintColor": "C8873A",
       "date": "2026-11-21",
       "notify": true

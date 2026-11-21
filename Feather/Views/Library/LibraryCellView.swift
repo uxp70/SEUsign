@@ -260,7 +260,7 @@ extension LibraryCellView {
 	private func _startUpdateDownload(_ update: AppUpdate) {
 		_ = DownloadManager.shared.startDownload(
 			from: update.downloadURL,
-			id: "SigilManualDownload_Update_\(update.localUUID)",
+			id: "SEUsignManualDownload_Update_\(update.localUUID)",
 			sourceProvenance: update.sourceProvenance
 		)
 	}

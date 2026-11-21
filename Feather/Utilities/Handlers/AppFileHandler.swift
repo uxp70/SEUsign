@@ -31,7 +31,7 @@ final class AppFileHandler: NSObject, @unchecked Sendable {
 		self._download = download
 		self._sourceProvenance = sourceProvenance ?? download?.sourceProvenance
 		self._uniqueWorkDir = _fileManager.temporaryDirectory
-			.appendingPathComponent("SigilImport_\(_uuid)", isDirectory: true)
+			.appendingPathComponent("SEUsignImport_\(_uuid)", isDirectory: true)
 		
 		super.init()
 	}
@@ -133,7 +133,7 @@ final class AppFileHandler: NSObject, @unchecked Sendable {
 	}
 	
 	private func _directory() async throws -> URL {
-		// Documents/Sigil/Unsigned/\(UUID)
+		// Documents/SEUsign/Unsigned/\(UUID)
 		_fileManager.unsigned(_uuid)
 	}
 	

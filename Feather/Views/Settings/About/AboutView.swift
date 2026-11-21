@@ -65,7 +65,7 @@ struct AboutView: View {
 					Text(.localized("Source Code"))
 				}
 			} footer: {
-				Text(.localized("Sigil is an on-device signing app, built on the open source Feather project."))
+				Text(.localized("SEUsign is an on-device signing app, built on the open source Feather project."))
 			}
 		}
 	}

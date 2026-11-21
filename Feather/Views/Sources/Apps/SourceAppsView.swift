@@ -29,8 +29,8 @@ extension SourceAppsView {
 
 // MARK: - View
 struct SourceAppsView: View {
-	@AppStorage("Sigil.sortOptionRawValue") private var _sortOptionRawValue: String = SortOption.default.rawValue
-	@AppStorage("Sigil.sortAscending") private var _sortAscending: Bool = true
+	@AppStorage("SEUsign.sortOptionRawValue") private var _sortOptionRawValue: String = SortOption.default.rawValue
+	@AppStorage("SEUsign.sortAscending") private var _sortAscending: Bool = true
 	
 	@State private var _sortOption: SortOption = .default
 	@State private var _selectedRoute: SourceAppRoute?

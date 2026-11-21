@@ -38,15 +38,15 @@ struct AppIconView: View {
 	// dont translate
 	var sections: [String: [AltIcon]] = [
 		"Main": [
-			AltIcon(displayName: "Sigil", author: "Sigil", key: nil),
-			AltIcon(displayName: "Sigil Mono", author: "Sigil", key: "V2Mac"),
-			AltIcon(displayName: "Sigil Deep Sea", author: "Sigil", key: "V1"),
-			AltIcon(displayName: "Sigil Slate", author: "Sigil", key: "V1Mac"),
-			AltIcon(displayName: "Sigil Paper", author: "Sigil", key: "V0"),
-			AltIcon(displayName: "Sigil Ember", author: "Sigil", key: "Donor")
+			AltIcon(displayName: "SEUsign", author: "SEUsign", key: nil),
+			AltIcon(displayName: "SEUsign Mono", author: "SEUsign", key: "V2Mac"),
+			AltIcon(displayName: "SEUsign Deep Sea", author: "SEUsign", key: "V1"),
+			AltIcon(displayName: "SEUsign Slate", author: "SEUsign", key: "V1Mac"),
+			AltIcon(displayName: "SEUsign Paper", author: "SEUsign", key: "V0"),
+			AltIcon(displayName: "SEUsign Ember", author: "SEUsign", key: "Donor")
 		],
 		"Alternates": [
-			AltIcon(displayName: "Sigil Mint", author: "Sigil", key: "Wing"),
+			AltIcon(displayName: "SEUsign Mint", author: "SEUsign", key: "Wing"),
 		]
 	]
 	

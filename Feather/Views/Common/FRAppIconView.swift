@@ -73,9 +73,9 @@ struct FRAppIconView: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@StateObject private var loader = FRAppIconLoader()
 	
-	@AppStorage("Sigil.userTintColor") private var selectedColorHex: String = "#C8873A"
-	@AppStorage("Sigil.shouldTintIcons") private var shouldTintIcons: Bool = false
-	@AppStorage("Sigil.shouldChangeIconsBasedOffStyle") private var shouldChangeIconsBasedOffStyle: Bool = false
+	@AppStorage("SEUsign.userTintColor") private var selectedColorHex: String = "#C8873A"
+	@AppStorage("SEUsign.shouldTintIcons") private var shouldTintIcons: Bool = false
+	@AppStorage("SEUsign.shouldChangeIconsBasedOffStyle") private var shouldChangeIconsBasedOffStyle: Bool = false
 	
 	init(app: AppInfoPresentable? = nil, size: CGFloat = 87) {
 		self.app = app

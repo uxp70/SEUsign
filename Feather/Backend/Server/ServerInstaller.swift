@@ -102,10 +102,10 @@ class ServerInstaller: Identifiable, ObservableObject {
 	}
 		
 	func getServerMethod() -> Int {
-		UserDefaults.standard.integer(forKey: "Sigil.serverMethod")
+		UserDefaults.standard.integer(forKey: "SEUsign.serverMethod")
 	}
 	
 	func getIPFix() -> Bool {
-		UserDefaults.standard.bool(forKey: "Sigil.ipFix")
+		UserDefaults.standard.bool(forKey: "SEUsign.ipFix")
 	}
 }

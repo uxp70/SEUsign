@@ -40,17 +40,17 @@ struct FeatherApp: App {
 			}
 			// dear god help me
 			.onAppear {
-				if let style = UIUserInterfaceStyle(rawValue: UserDefaults.standard.integer(forKey: "Sigil.userInterfaceStyle")) {
+				if let style = UIUserInterfaceStyle(rawValue: UserDefaults.standard.integer(forKey: "SEUsign.userInterfaceStyle")) {
 					UIApplication.topViewController()?.view.window?.overrideUserInterfaceStyle = style
 				}
 				
-				UIApplication.topViewController()?.view.window?.tintColor = UIColor(Color(hex: UserDefaults.standard.string(forKey: "Sigil.userTintColor") ?? "#C8873A"))
+				UIApplication.topViewController()?.view.window?.tintColor = UIColor(Color(hex: UserDefaults.standard.string(forKey: "SEUsign.userTintColor") ?? "#C8873A"))
 			}
 		}
 	}
 	
 	private func _handleURL(_ url: URL) {
-		if url.scheme == "sigil" || url.scheme == "feather" {
+		if url.scheme == "seusign" || url.scheme == "feather" {
 			/// feather://import-certificate?p12=<base64>&mobileprovision=<base64>&password=<base64>
 			if url.host == "import-certificate" {
 				guard
@@ -172,7 +172,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				config.urlCache = nil
 				return DataLoader(configuration: config)
 			}()
-			let dataCache = try? DataCache(name: "sigil.datacache") // disk cache
+			let dataCache = try? DataCache(name: "seusign.datacache") // disk cache
 			let imageCache = Nuke.ImageCache() // memory cache
 			dataCache?.sizeLimit = 500 * 1024 * 1024
 			imageCache.costLimit = 100 * 1024 * 1024
@@ -203,7 +203,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	private func _addDefaultCertificates() {
 		guard
-			UserDefaults.standard.bool(forKey: "sigil.didImportDefaultCertificates") == false,
+			UserDefaults.standard.bool(forKey: "seusign.didImportDefaultCertificates") == false,
 			let signingAssetsURL = Bundle.main.url(forResource: "signing-assets", withExtension: nil)
 		else {
 			return
@@ -246,7 +246,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 					
 				}
 			}
-			UserDefaults.standard.set(true, forKey: "sigil.didImportDefaultCertificates")
+			UserDefaults.standard.set(true, forKey: "seusign.didImportDefaultCertificates")
 		} catch {
 			Logger.misc.error("Failed to list signing-assets: \(error)")
 		}

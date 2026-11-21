@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rename this fork's app identity from "Sigil" to "SEUsign".
+"""Rename this fork's app identity from "SEUsign" to "SEUsign".
 
 The logo and packaging stay as they are; only the name changes.
 """
@@ -17,7 +17,7 @@ TEXT_EXT = {
     ".py", ".xml", ".entitlements", ".modulemap",
 }
 TEXT_NAMES = {"Makefile"}
-PAIRS = [("Sigil", "SEUsign"), ("sigil", "seusign")]
+PAIRS = [("SEUsign", "SEUsign"), ("seusign", "seusign")]
 
 
 def decode(data):
@@ -39,7 +39,7 @@ def main():
                 continue
             raw = open(path, "rb").read()
             text, encoding = decode(raw)
-            if text is None or ("Sigil" not in text and "sigil" not in text):
+            if text is None or ("SEUsign" not in text and "seusign" not in text):
                 continue
             new = text
             for old, rep in PAIRS:

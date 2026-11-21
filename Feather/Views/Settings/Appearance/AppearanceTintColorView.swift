@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - View
 struct AppearanceTintColorView: View {
-	@AppStorage("Sigil.userTintColor") private var _selectedColorHex: String = "#C8873A"
+	@AppStorage("SEUsign.userTintColor") private var _selectedColorHex: String = "#C8873A"
 	private let _tintOptions: [(name: String, hex: String)] = [
 		("Brass", 			"#C8873A"),
 		("Ink", 				"#25303D"),

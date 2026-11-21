@@ -1,5 +1,5 @@
 name: Create Bug Report
-description: Report a bug or crash in Sigil.
+description: Report a bug or crash in SEUsign.
 title: '[Bug] '
 labels:
   - bug

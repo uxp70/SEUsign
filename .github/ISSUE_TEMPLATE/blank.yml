@@ -1,5 +1,5 @@
 name: Create Blank Issue
-description: Blank issue report for Sigil. Use this for anything other than a bug or feature request.
+description: Blank issue report for SEUsign. Use this for anything other than a bug or feature request.
 
 body:
   - type: markdown

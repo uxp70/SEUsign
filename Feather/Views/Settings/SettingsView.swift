@@ -13,7 +13,7 @@ import IDeviceSwift
 
 // MARK: - View
 struct SettingsView: View {
-	@AppStorage("sigil.selectedCert") private var _storedSelectedCert: Int = 0
+	@AppStorage("seusign.selectedCert") private var _storedSelectedCert: Int = 0
 	@State private var _currentIcon: String? = UIApplication.shared.alternateIconName
 	
 	// MARK: Fetch

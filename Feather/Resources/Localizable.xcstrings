@@ -743,7 +743,7 @@
       }
     },
     "About %@" : {
-      "comment" : "About Sigil",
+      "comment" : "About SEUsign",
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
@@ -1275,7 +1275,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Všechny soubory Sigilu jsou v složce Dokumenty, zde jsou na ně rychlé odkazy."
+            "value" : "Všechny soubory SEUsignu jsou v složce Dokumenty, zde jsou na ně rychlé odkazy."
           }
         },
         "de" : {
@@ -1293,7 +1293,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Semua berkas Sigil berada di direktori dokumen, berikut beberapa tautan cepat ke berkas-berkas tersebut."
+            "value" : "Semua berkas SEUsign berada di direktori dokumen, berikut beberapa tautan cepat ke berkas-berkas tersebut."
           }
         },
         "it" : {
@@ -1311,7 +1311,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wszystkie pliki Sigil znajdują się w katalogu dokumentów, oto szybkie odnośniki do nich."
+            "value" : "Wszystkie pliki SEUsign znajdują się w katalogu dokumentów, oto szybkie odnośniki do nich."
           }
         },
         "tr" : {
@@ -1323,7 +1323,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tất cả các file của Sigil có thể được tìm thấy trong ứng dụng Tệp, đây là một số liên kết nhanh đến chúng."
+            "value" : "Tất cả các file của SEUsign có thể được tìm thấy trong ứng dụng Tệp, đây là một số liên kết nhanh đến chúng."
           }
         },
         "zh-Hans" : {
@@ -4913,7 +4913,7 @@
       }
     },
     "Enjoying %@?" : {
-      "comment" : "Enjoying Sigil?",
+      "comment" : "Enjoying SEUsign?",
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
@@ -15376,7 +15376,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bağış yaparak desteğinizi gösterin! Eğer bağış yapamıyorsanız Sigil’ı dilden dile yaymak da işe yarar!"
+            "value" : "Bağış yaparak desteğinizi gösterin! Eğer bağış yapamıyorsanız SEUsign’ı dilden dile yaymak da işe yarar!"
           }
         },
         "vi" : {

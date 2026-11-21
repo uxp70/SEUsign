@@ -12,7 +12,7 @@ import NukeUI
 @available(iOS 18, *)
 struct ExtendedTabbarView: View {
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass
-	@AppStorage("Sigil.tabCustomization") var customization = TabViewCustomization()
+	@AppStorage("SEUsign.tabCustomization") var customization = TabViewCustomization()
 	@StateObject var viewModel = SourcesViewModel.shared
 	
 	@State private var _isAddingPresenting = false
