@@ -23,6 +23,7 @@ A rebranded, independently maintained fork of [Feather](https://github.com/clara
   - This includes patching apps for compatibility and Liquid Glass.
 - Tweak support for advanced users, using [Ellekit](https://github.com/tealbathingsuit/ellekit) for injection.
   - Supports injecting `.deb` and `.dylib` files.
+- The SEUsign repository is added automatically on first launch, so new versions of the app show up in Sources and in the Library update check.
 - Automatic certificates: browse and import a certificate, provisioning profile and password from [sideloading.net](https://sideloading.net/api/) in one tap, verify an imported certificate remotely, and recover a forgotten `.p12` password.
   - Remote verification and password recovery upload the `.p12` (and its password) to sideloading.net. The app states this plainly and asks for confirmation before anything leaves the device.
 - Interface styles: preset styles, accent palette, density, card shape and background options, applied to the Library and Sources lists as well as the certificate cards.

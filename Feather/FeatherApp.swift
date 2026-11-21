@@ -9,6 +9,8 @@ import SwiftUI
 import Nuke
 import IDeviceSwift
 import OSLog
+import AltSourceKit
+import NimbleJSON
 
 @main
 struct FeatherApp: App {
@@ -161,8 +163,58 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		_createDocumentsDirectories()
 		ResetView.clearWorkCache()
 		_addDefaultCertificates()
+		_addSEURepository()
 		_refreshCertificateRevocation()
 		return true
+	}
+
+	/// The app's own AltStore repository, added on first launch so SEUsign
+	/// updates appear in Sources and in the Library update check without
+	/// pasting the URL by hand. It is only added once: deleting it later is
+	/// respected, and a failed fetch is retried on the next launch.
+	private static let seuRepositoryURL = URL(
+		string: "https://raw.githubusercontent.com/uxp70/SEUsign/refs/heads/main/app-repo.json"
+	)!
+	private static let seuRepositoryIdentifier = "seusign-repo"
+	private static let seuRepositoryKey = "seusign.didAddSEURepository"
+
+	private func _addSEURepository() {
+		guard UserDefaults.standard.bool(forKey: Self.seuRepositoryKey) == false else {
+			return
+		}
+
+		let url = Self.seuRepositoryURL
+		let alreadyAdded = Storage.shared.getSources().contains {
+			$0.sourceURL?.absoluteString == url.absoluteString
+				|| $0.identifier == Self.seuRepositoryIdentifier
+		}
+
+		guard !alreadyAdded else {
+			UserDefaults.standard.set(true, forKey: Self.seuRepositoryKey)
+			return
+		}
+
+		NBFetchService().fetch(from: url) { (result: Result<ASRepository, Error>) in
+			switch result {
+			case .success(let repository):
+				DispatchQueue.main.async {
+					Storage.shared.addSource(
+						url,
+						repository: repository,
+						id: Self.seuRepositoryIdentifier
+					) { error in
+						if let error {
+							Logger.misc.error("Failed to add the SEUsign repository: \(error.localizedDescription)")
+						} else {
+							UserDefaults.standard.set(true, forKey: Self.seuRepositoryKey)
+							Logger.misc.info("Added the SEUsign repository")
+						}
+					}
+				}
+			case .failure(let error):
+				Logger.misc.error("Failed to fetch the SEUsign repository: \(error.localizedDescription)")
+			}
+		}
 	}
 	
 	private func _createPipeline() {
